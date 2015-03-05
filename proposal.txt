@@ -21,6 +21,9 @@ Project details:
 
 	BONUS: The use of ”fancy” techniques such as Markov Random Fields should only be attempted if you want an extra bonus on the project (up to 30% extra). These type of techniques are only cover in class as a review of exciting things in machine learning and thus I do not expect students to try such things for the purpose of the project.
 
+Language:
+	python
+
 Reference:
 	[1] Jannik Fritsch , Tobias Kuhnl, and Andreas Geiger. ”A New Performance Measure and Evaluation Benchmark for Road Detection Algorithms.” ISTC 2013.
 
