@@ -1,0 +1,16 @@
+Project Proposal for CSC2515 Introduction to Machine Learning
+
+Project choice:
+Autonomous Driving: Road-Estimation
+
+Methodology:
+Markov Random Field for segmentation
+
+Team members:
+Jia Ming (Anson) Liang
+Wenjie (Richie) Zi
+
+Graduation date:
+Both of us are not graduating in June 2015
+
+
