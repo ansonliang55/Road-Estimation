@@ -1,0 +1,30 @@
+Project Proposal for CSC2515 Introduction to Machine Learning
+
+Team members:
+	Jia Ming (Anson) Liang
+	Wenjie (Richie) Zi
+
+Graduation date:
+	Both of us are not graduating in June 2015
+
+Project choice:
+	Autonomous Driving: Road-Estimation
+
+Project details:
+	The goal of this project is to create a classifier that given an image it is able to create a pixel wise segmentation of the image in terms of what is road and what is non-road (i.e., binary classification). For this purpose download the base kit of KITTI [2] with: left color images, calibration and training labels data from http://www.cvlibs.net/datasets/kitti/eval_road.php. Split the training data into training, validation and testing. The splits should be 60%/10% and 30% of the data. Do not submit to the test set benchmark. Best performing methods will be invited to do so. For more information about the road dataset see [1].
+
+	Note that the task is to label each pixel, and thus there is a ”classification” problem to be solved per pixel. To easy the computation, for each image first compute super-pixels using for example SLIC http://ivrg.epfl.ch/research/superpixels#SLICO. Note that you can use other super pixel code/algorithms if you want to. Classification can then be performed by treating each super pixel as an example. See Fig. 1 for a illustration of the problem, the ground truth as well as the super pixels.
+
+	The purpose of this project is to investigate machine learning techniques to solve this task. Try things that we have seen in class and feel free to also try other techniques. Write in your report what you have done, what you observe, what you have tried, why you did what you did, etc. 
+
+	Make a section of your report about what would you do to scale what you have done to work with pixels, as in that case you have millions of examples. You don’t need to implement anything but add a discussion of your ideas.
+
+	BONUS: The use of ”fancy” techniques such as Markov Random Fields should only be attempted if you want an extra bonus on the project (up to 30% extra). These type of techniques are only cover in class as a review of exciting things in machine learning and thus I do not expect students to try such things for the purpose of the project.
+
+Language:
+	python
+
+Reference:
+	[1] Jannik Fritsch , Tobias Kuhnl, and Andreas Geiger. ”A New Performance Measure and Evaluation Benchmark for Road Detection Algorithms.” ISTC 2013.
+
+	[2] Andreas Geiger, Philip Lenz, and Raquel Urtasun. ”Are we ready for autonomous driving? the kitti vision benchmark suite.” CVPR 2012.
