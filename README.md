@@ -1,6 +1,11 @@
 # uot-ml-project
 Autonomous Driving: Road-Estimation
 
+Scipy Image Processing Tutorial:
+http://scipy-lectures.github.io/advanced/image_processing/
+http://scipy-lectures.github.io/packages/scikit-image/
+http://scipy-lectures.github.io/index.html
+
 Data file can be obtained from: 
 http://www.cvlibs.net/datasets/kitti/eval_road.php 
 (Download base kit with: left color images, calibration and training labels (0.5 GB))

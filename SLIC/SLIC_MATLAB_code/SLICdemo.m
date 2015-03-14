@@ -20,7 +20,8 @@
 %[2] you must compile the C file using mex slicme.c before using the code
 %below
 %======================================================================
-img = imread('someimage.jpg');
-[labels, numlabels] = slicmex(img,500,20);%numlabels is the same as number of superpixels
+img = imread('um_000000.png');
+[labels, numlabels] = slicmex(img,200,20);%numlabels is the same as number of superpixels
 imagesc(labels);
+
 
