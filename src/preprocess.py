@@ -12,7 +12,7 @@ import matplotlib.cm as cm
 
 
 im = misc.imread('../data_road/training/image/um_000000.png',True)
-target_im = misc.imread('../data_road/training/label/um_lane_000000.png', True)
+target_im = misc.imread('../data_road/training/label/um_road_000000.png', True)
 
 mat = scipy.io.loadmat('../data_road/training/image/um_000000.mat')
 label = mat['labels']
