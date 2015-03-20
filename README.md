@@ -6,14 +6,16 @@ https://pystruct.github.io/auto_examples/image_segmentation.html#image-segmentat
 
 Step:                                                                                        Timeline
 1. slic pictures into super pixels.(done)
-2. feature extraction.
-..2.1 pre-processing                   
+2. feature extraction/preprocessing.
+⋅⋅* "The unary potentials used in our implementation are derived from TextonBoost [19, 13]. We use
+the 17-dimensional filter bank suggested by Shotton et al. [19], and follow Ladick´y et al. [13] by
+adding color, histogram of oriented gradients (HOG), and pixel location features."
 3. unary function derivation.
 4. add pairwise function.                                                                    Mar. 22th
 5. choose classification method.(random forest, neural network, SVM)                         Mar. 31th
 6. implementation(python)                                                                    Apr. 3rd
-..6.1 fully connected CRF.     
-..6.2 max flow - min cut algorithm.
+..* fully connected CRF.     
+..* max flow - min cut algorithm.
 7. evaluation benchmark.                                                                     Apr. 6th
 8. report                                                                                    Apr. 8th
 
