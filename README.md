@@ -7,13 +7,13 @@ https://pystruct.github.io/auto_examples/image_segmentation.html#image-segmentat
 Step:                                                                                        Timeline
 1. slic pictures into super pixels.(done)
 2. feature extraction.
-   2.1 pre-processing                   
+..2.1 pre-processing                   
 3. unary function derivation.
 4. add pairwise function.                                                                    Mar. 22th
 5. choose classification method.(random forest, neural network, SVM)                         Mar. 31th
 6. implementation(python)                                                                    Apr. 3rd
-   6.1 fully connected CRF.     
-   6.2 max flow - min cut algorithm.
+..6.1 fully connected CRF.     
+..6.2 max flow - min cut algorithm.
 7. evaluation benchmark.                                                                     Apr. 6th
 8. report                                                                                    Apr. 8th
 
