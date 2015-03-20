@@ -1,10 +1,11 @@
 # uot-ml-project
 Autonomous Driving: Road-Estimation
 
-Scipy Image Processing Tutorial:
-http://scipy-lectures.github.io/advanced/image_processing/
-http://scipy-lectures.github.io/packages/scikit-image/
-http://scipy-lectures.github.io/index.html
+Pystruct:
+https://pystruct.github.io/auto_examples/image_segmentation.html#image-segmentation-py
+
+Step:
+
 
 Data file can be obtained from: 
 http://www.cvlibs.net/datasets/kitti/eval_road.php 
