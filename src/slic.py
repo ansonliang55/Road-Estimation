@@ -5,7 +5,8 @@ from skimage.util import img_as_float
 from skimage import io
 import matplotlib.pyplot as plt
 import argparse
- 
+
+#""" demo
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required = True, help = "Path to the image")
@@ -28,3 +29,7 @@ for numSegments in (100, 200, 300):
  
 # show the plots
 plt.show()
+#"""
+
+#def getSegments(im_file_name, numSegments, sigma):
+		#image = img_as_float(io.imread(im_file_name))
