@@ -21,12 +21,11 @@
 %below
 %======================================================================
 
-F = dir('../../data_road/training/image/*.png');
-path = '../../data_road/training/image/';
+F = dir('../data_road/training/image/*.png');
+path = '../data_road/training/image/';
 for i = 1:length(F)
     img = imread(strcat(path,F(i).name));
-    
-    [labels, numlabels] = slicmex(img,150,10);%numlabels is the same as number of superpixels
+    [labels, numlabels] = slicmex(img,200,10);%numlabels is the same as number of superpixels
     filename = strrep(F(i).name, '.png', '.mat');
     save(strcat(path, filename), 'labels');
 end

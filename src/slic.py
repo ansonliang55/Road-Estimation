@@ -1,35 +1,32 @@
-# import the necessary packages
+"""
+Written by: Anson Liang
+"""
+
 from skimage.segmentation import slic
-from skimage.segmentation import mark_boundaries
-from skimage.util import img_as_float
-from skimage import io
-import matplotlib.pyplot as plt
-import argparse
+from superpixel import showPlots
 
-#""" demo
-# construct the argument parser and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required = True, help = "Path to the image")
-args = vars(ap.parse_args())
- 
-# load the image and convert it to a floating point data type
-image = img_as_float(io.imread(args["image"]))
- 
-# loop over the number of segments
-for numSegments in (100, 200, 300):
-	# apply SLIC and extract (approximately) the supplied number
-	# of segments
-	segments = slic(image, n_segments = numSegments, sigma = 5)
-	print segments
-	# show the output of SLIC
-	fig = plt.figure("Superpixels -- %d segments" % (numSegments))
-	ax = fig.add_subplot(1, 1, 1)
-	ax.imshow(mark_boundaries(image, segments))
-	plt.axis("off")
- 
-# show the plots
-plt.show()
-#"""
 
-#def getSegments(im_file_name, numSegments, sigma):
-		#image = img_as_float(io.imread(im_file_name))
+# @input 
+#      image: 3D array nxmx3 pixels with 3 colors. 
+#      numSegments: number of desired segments  
+#      com_factor: the compact factors
+# @output
+#      segments: 2D array nxm describing pixel label
+def getSlicSuperpixels(image, numSegments, com_factor):
+		superpixels = slic(image, n_segments = numSegments, sigma = com_factor)
+		# code for display results
+		#showPlots(image, numSegments, superpixels)
+		return superpixels
+
+
+
+""" get color histogram code
+def get_color_histogram(image,superpixels,index):
+		indices = np.where(grid.ravel() == index)[0]
+		r = np.bincount(im[:,:,0].ravel()[indices],minlength=256)
+		g = np.bincount(im[:,:,1].ravel()[indices],minlength=256)
+		b = np.bincount(im[:,:,2].ravel()[indices],minlength=256)
+	
+		histogram = (rhist0+bhist0+ghist0)/3
+		return histogram
+	"""
