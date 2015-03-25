@@ -6,6 +6,7 @@ This is a handler for superpixels
 import numpy as np
 from skimage.segmentation import mark_boundaries
 import matplotlib.pyplot as plt
+from sklearn.linear_model import SGDClassifier
 
 # @input 
 #      superpixels: 2D array nxm pixels label 
@@ -13,7 +14,7 @@ import matplotlib.pyplot as plt
 #      locations: 2D array nx2 centroid locaiton of all superpixels
 def getSuperPixelLocations(superpixels):
 		locations = []
-		numSuperpixels = np.max(superpixels)
+		numSuperpixels = np.max(superpixels)+1
 		for i in xrange(0,numSuperpixels):
 				indices = np.where(superpixels == i)
 				x = np.mean(indices[0])
@@ -30,7 +31,7 @@ def getSuperPixelLocations(superpixels):
 def getSuperPixelMeanColor(superpixels, image):
 		colors = []
 		#newIm = image
-		numSuperpixels = np.max(superpixels)
+		numSuperpixels = np.max(superpixels)+1
 		for i in xrange(0,numSuperpixels):
 				indices = np.where(superpixels==i)
 				color = image[indices]
@@ -51,7 +52,7 @@ def getSuperPixelMeanColor(superpixels, image):
 def getSuperPixelLabel(superpixels, label_image, thres):
 		#newIm = image
 		superpixel_labels = []
-		numSuperpixels = np.max(superpixels)
+		numSuperpixels = np.max(superpixels)+1
 		labelValue = label_image.max()
 		label_pixels = (label_image == labelValue)
 		for i in xrange(0,numSuperpixels):
@@ -68,6 +69,25 @@ def getSuperPixelLabel(superpixels, label_image, thres):
 		# show sample test mean image
 		return np.array(superpixel_labels)
 
+# @input 
+#      superpixels: 2D array nxm pixels label 
+#      label_image: 3D array nxm pixels color original image
+# @output
+#      superpixel_labels: 1D Array label for super pixel (between 0-1)
+def getSuperPixelLabelPercent(superpixels, label_image):
+		#newIm = image
+		superpixel_labels = []
+		numSuperpixels = np.max(superpixels)+1
+		labelValue = label_image.max()
+		label_pixels = (label_image == labelValue)
+		for i in xrange(0,numSuperpixels):
+				indices = np.where(superpixels==i)
+				cor_label = label_pixels[indices]
+				portion_true = 1.0*np.sum(cor_label)/len(cor_label)
+				superpixel_labels.append(portion_true)
+		#showPlots(newIm, numSuperpixels, superpixels)
+		#show sample test mean image
+		return np.array(superpixel_labels)
 
 # @input 
 #      superpixels: 2D array nxm pixels label 
@@ -75,7 +95,7 @@ def getSuperPixelLabel(superpixels, label_image, thres):
 #      superpixel_size: 1D array number of pixels per superpixels
 def getSuperPixelSize(superpixels):
 		superpixel_size = []
-		numSuperpixels = np.max(superpixels)
+		numSuperpixels = np.max(superpixels)+1
 		for i in xrange(0,numSuperpixels):
 				size = np.sum(superpixels==i)
 				superpixel_size.append(size)
@@ -95,3 +115,17 @@ def showPlots(image, numSuperpixels, superpixels):
 		ax.imshow(mark_boundaries(image, superpixels))
 		plt.axis("off")
 		plt.show()
+
+
+def showPrediction(clf, superpixels, test_data, image):
+		newIm = image
+		numSuperpixels = np.max(superpixels)+1
+		for i in xrange(0,numSuperpixels):
+				indices = np.where(superpixels==i)
+				prediction = clf.predict_proba([test_data[i]])[0][1]
+				#if prediction == 1:
+				newIm[indices] = [prediction,prediction,prediction]
+				#else:
+				#		newIm[indices] = [0,0,0]
+		showPlots(newIm, numSuperpixels, superpixels)
+

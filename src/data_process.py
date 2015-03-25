@@ -6,54 +6,90 @@ from skimage import io, color
 import slic as sl
 from skimage.util import img_as_float
 import superpixel as sp
-import scipy.io
+import scipy.io, sys
 import numpy as np
 import glob
+import random
+
+#constant
+TRAINING_LABEL=0
+VALIDATION_LABEL=1
+TESTING_LABEL=2
 
 numSegments = 200
 com_factor = 10
 
+
 im_file_names = glob.glob("../data_road/training/image/*.png")
-mat_file_names = glob.glob("../data_road/training/image/*.mat")
+sp_file_names = glob.glob("../data_road/training/image/*.mat")
 label_file_names = glob.glob("../data_road/training/label/*road*.png")
 
-sp_location_x = []
-sp_location_y = []
-sp_color_r = []
-sp_color_g = []
-sp_color_b = []
-sp_label = []
-sp_size = []
+num_files = len(im_file_names)
 
-for i in xrange(0,len(im_file_names)):
-		# read input image
-		image = img_as_float(io.imread(im_file_names[i]))
-		label_image = color.rgb2gray(io.imread(label_file_names[i]))#load in grayscale
 
-		# get slic superpixel segmentation
-		#im_sp = sl.getSlicSuperpixels(image, numSegments, com_factor)
-		im_sp = scipy.io.loadmat(mat_file_names[i])['labels'] 
+# define data split
+num_train = int(num_files * 0.6)
+num_test = int(num_files * 0.3)
+num_valid = num_files - num_train - num_test
 
-		# get superpixel centroid location
-		sp_location = sp.getSuperPixelLocations(im_sp)
-		sp_location_x = np.append(sp_location_x, sp_location.T[0], 0)
-		sp_location_y = np.append(sp_location_y, sp_location.T[1], 0)
+# define data split label 0 - train, 1 - validation, 2 - test
+file_labels = np.zeros(num_files)
+for i in xrange(0,num_test):
+		file_labels[i] = 2 
+for i in xrange(num_test,(num_valid+num_test)):
+		file_labels[i] = 1 
 
-		# get superpixel mean color
-		sp_color = sp.getSuperPixelMeanColor(im_sp, image)
-		sp_color_r = np.append(sp_color_r, sp_color.T[0], 0)
-		sp_color_g = np.append(sp_color_g, sp_color.T[1], 0)
-		sp_color_b = np.append(sp_color_b, sp_color.T[2], 0)
-		# get superpixel label
-		sp_label = np.append(sp_label, sp.getSuperPixelLabel(im_sp, label_image, 0.5), 0)
+random.seed(42)
+random.shuffle(file_labels)
 
-		# get superpixel size
-		sp_size = np.append(sp_size, sp.getSuperPixelSize(im_sp),0)
+train_labels = []
+train_data = []
+valid_labels = []
+valid_data = []
+for i in xrange(0,num_files):
 
-print np.array(sp_location_x).shape
+		if file_labels[i] != TESTING_LABEL:
+				# read input image
+				image = img_as_float(io.imread(im_file_names[i]))
+				label_image = color.rgb2gray(io.imread(label_file_names[i]))#load in grayscale
 
-data = (sp_location_x,sp_location_y,sp_color_r,sp_color_g,sp_color_b,sp_size)
-data = np.array(data).T
+				# get slic superpixel segmentation
+				im_sp = sl.getSlicSuperpixels(image, numSegments, com_factor)
+				#im_sp = scipy.io.loadmat(sp_file_names[i])['labels'] 
 
-scipy.io.savemat('data.mat', {'data':data, 'labels':sp_label}, oned_as='column')
+				# get superpixel centroid location
+				sp_location = sp.getSuperPixelLocations(im_sp)
+
+				# get superpixel mean color		
+				sp_color = sp.getSuperPixelMeanColor(im_sp, image)
+
+				# get superpixel size
+				sp_size = sp.getSuperPixelSize(im_sp)
+		
+				# store data
+				if file_labels[i] == TRAINING_LABEL:
+						# get superpixel label
+						train_labels = np.append(train_labels, sp.getSuperPixelLabel(im_sp, label_image, 0.5), 0)
+						#train_labels = np.append(train_labels, sp.getSuperPixelLabelPercent(im_sp, label_image), 0)
+						if train_data==[]:
+								train_data = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+						else:
+								temp = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+								train_data = np.vstack((train_data,temp))
+				else:
+						valid_labels = np.append(valid_labels, sp.getSuperPixelLabel(im_sp, label_image, 0.5), 0)
+						#valid_labels = np.append(valid_labels, sp.getSuperPixelLabelPercent(im_sp, label_image), 0)
+						if valid_data==[]:
+								valid_data = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+						else:
+								temp = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+								valid_data = np.vstack((valid_data,temp))
+		sys.stdout.write('\r')
+		sys.stdout.write('progress %2.2f%%' %(100.0*i/num_files))
+		sys.stdout.flush()
+
+print np.array(train_data).shape # show total number of superpixels
+
+
+scipy.io.savemat('data.mat', {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names}, oned_as='column')
 
