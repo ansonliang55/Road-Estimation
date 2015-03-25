@@ -6,7 +6,6 @@ This is a handler for superpixels
 import numpy as np
 from skimage.segmentation import mark_boundaries
 import matplotlib.pyplot as plt
-from sklearn.linear_model import SGDClassifier
 
 # @input 
 #      superpixels: 2D array nxm pixels label 
@@ -116,7 +115,13 @@ def showPlots(image, numSuperpixels, superpixels):
 		plt.axis("off")
 		plt.show()
 
-
+# @input 
+#      clf: classficiation object containing trained parameters
+#      superpixels: 2D array nxm pixels label 
+#      test_data: 2D array nxm, n data, m features
+#      image: 2D array nxm original image
+# @output
+#      display output image indicating road
 def showPrediction(clf, superpixels, test_data, image):
 		newIm = image
 		numSuperpixels = np.max(superpixels)+1
