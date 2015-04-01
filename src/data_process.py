@@ -10,14 +10,11 @@ import scipy.io, sys
 import numpy as np
 import glob
 import random
-
+import featureExtract as fe
 #constant
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
 TESTING_LABEL=2
-
-numSegments = 200
-com_factor = 10
 
 
 im_file_names = glob.glob("../data_road/training/image/*.png")
@@ -49,41 +46,23 @@ valid_data = []
 for i in xrange(0,num_files):
 
 		if file_labels[i] != TESTING_LABEL:
-				# read input image
-				image = img_as_float(io.imread(im_file_names[i]))
-				label_image = color.rgb2gray(io.imread(label_file_names[i]))#load in grayscale
 
-				# get slic superpixel segmentation
-				im_sp = sl.getSlicSuperpixels(image, numSegments, com_factor)
-				#im_sp = scipy.io.loadmat(sp_file_names[i])['labels'] 
+				featureVectors, im_sp, image = fe.getFeaturesVectors(im_file_names[i], sp_file_names[i])
+				labels = fe.getLabels(label_file_names[i], im_sp)
 
-				# get superpixel centroid location
-				sp_location = sp.getSuperPixelLocations(im_sp)
-
-				# get superpixel mean color		
-				sp_color = sp.getSuperPixelMeanColor(im_sp, image)
-
-				# get superpixel size
-				sp_size = sp.getSuperPixelSize(im_sp)
-		
 				# store data
 				if file_labels[i] == TRAINING_LABEL:
-						# get superpixel label
-						train_labels = np.append(train_labels, sp.getSuperPixelLabel(im_sp, label_image, 0.5), 0)
-						#train_labels = np.append(train_labels, sp.getSuperPixelLabelPercent(im_sp, label_image), 0)
+						train_labels = np.append(train_labels, labels, 0)
 						if train_data==[]:
-								train_data = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+								train_data = featureVectors
 						else:
-								temp = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
-								train_data = np.vstack((train_data,temp))
+								train_data = np.vstack((train_data,featureVectors))
 				else:
-						valid_labels = np.append(valid_labels, sp.getSuperPixelLabel(im_sp, label_image, 0.5), 0)
-						#valid_labels = np.append(valid_labels, sp.getSuperPixelLabelPercent(im_sp, label_image), 0)
+						valid_labels = np.append(valid_labels, labels, 0)
 						if valid_data==[]:
-								valid_data = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+								valid_data = featureVectors
 						else:
-								temp = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
-								valid_data = np.vstack((valid_data,temp))
+								valid_data = np.vstack((valid_data,featureVectors))
 		sys.stdout.write('\r')
 		sys.stdout.write('progress %2.2f%%' %(100.0*i/num_files))
 		sys.stdout.flush()
