@@ -51,18 +51,8 @@ for i in xrange(0,total_sample):
 
 sp_file_names = data['sp_file_names'][0].strip()
 im_file_names = data['im_file_names'][0].strip()
-# read input image
-image = img_as_float(io.imread(im_file_names))
-# get slic superpixel segmentation
-im_sp = sl.getSlicSuperpixels(image, numSegments, com_factor)
-#im_sp = scipy.io.loadmat(sp_file_names)['labels']
-# get superpixel centroid location
-sp_location = sp.getSuperPixelLocations(im_sp)
-# get superpixel mean color		
-sp_color = sp.getSuperPixelMeanColor(im_sp, image)
-# get superpixel size
-sp_size = sp.getSuperPixelSize(im_sp)
-test_data = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+
+test_data, im_sp, image = fe.getFeaturesVectors(im_file_names, sp_file_names)
 
 test_data = scaler.transform(test_data)
 sp.showPrediction(clf, im_sp, test_data, image)
