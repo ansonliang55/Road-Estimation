@@ -46,6 +46,7 @@ train_labels = []
 train_data = []
 valid_labels = []
 valid_data = []
+valid_pixels_labels = []
 for i in xrange(0,num_files):
 
         if file_labels[i] != TESTING_LABEL:
@@ -80,6 +81,7 @@ for i in xrange(0,num_files):
                                 temp = np.vstack((sp_location.T,sp_color.T, sp_size.T, sp_HOG.T)).T
                                 train_data = np.vstack((train_data,temp))
                 else:
+                        valid_pixels_labels = np.append(valid_pixels_labels,label_image)
                         valid_labels = np.append(valid_labels, sp.getSuperPixelLabel(im_sp, label_image, 0.5), 0)
                         #valid_labels = np.append(valid_labels, sp.getSuperPixelLabelPercent(im_sp, label_image), 0)
                         if valid_data==[]:
@@ -94,5 +96,5 @@ for i in xrange(0,num_files):
 print np.array(train_data).shape # show total number of superpixels
 
 
-scipy.io.savemat('test_data.mat', {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names}, oned_as='column')
+scipy.io.savemat('test_data.mat', {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels}, oned_as='column')
 
