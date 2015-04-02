@@ -8,11 +8,11 @@ import superpixel as sp
 import scipy.io, sys
 import numpy as np
 from sklearn.linear_model import SGDClassifier,SGDRegressor
-import superpixel as sp
-import slic as sl
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
+from featureExtract import Feature
+
 #constant
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
@@ -51,21 +51,14 @@ for i in xrange(0,total_sample):
 
 sp_file_names = data['sp_file_names'][0].strip()
 im_file_names = data['im_file_names'][0].strip()
-# read input image
-image = img_as_float(io.imread(im_file_names))
-# get slic superpixel segmentation
-im_sp = sl.getSlicSuperpixels(image, numSegments, com_factor)
-#im_sp = scipy.io.loadmat(sp_file_names)['labels']
-# get superpixel centroid location
-sp_location = sp.getSuperPixelLocations(im_sp)
-# get superpixel mean color		
-sp_color = sp.getSuperPixelMeanColor(im_sp, image)
-# get superpixel size
-sp_size = sp.getSuperPixelSize(im_sp)
-test_data = np.vstack((sp_location.T,sp_color.T, sp_size.T)).T
+
+fe = Feature()
+fe.loadImage(im_file_names)
+fe.loadSuperpixelImage(200, 10)
+test_data = fe.getFeaturesVectors()
 
 test_data = scaler.transform(test_data)
-sp.showPrediction(clf, im_sp, test_data, image)
+sp.showPrediction(clf, fe.getSuperpixelImage(), test_data, fe.getImage())
 
 
 
