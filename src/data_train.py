@@ -8,11 +8,11 @@ import superpixel as sp
 import scipy.io, sys
 import numpy as np
 from sklearn.linear_model import SGDClassifier,SGDRegressor
-import superpixel as sp
-import slic as sl
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
+from featureExtract import Feature
+
 #constant
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
@@ -52,10 +52,13 @@ for i in xrange(0,total_sample):
 sp_file_names = data['sp_file_names'][0].strip()
 im_file_names = data['im_file_names'][0].strip()
 
-test_data, im_sp, image = fe.getFeaturesVectors(im_file_names, sp_file_names)
+fe = Feature()
+fe.loadImage(im_file_names)
+fe.loadSuperpixelImage(200, 10)
+test_data = fe.getFeaturesVectors()
 
 test_data = scaler.transform(test_data)
-sp.showPrediction(clf, im_sp, test_data, image)
+sp.showPrediction(clf, fe.getSuperpixelImage(), test_data, fe.getImage())
 
 
 

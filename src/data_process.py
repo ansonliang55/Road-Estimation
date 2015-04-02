@@ -10,7 +10,7 @@ import scipy.io, sys
 import numpy as np
 import glob
 import random
-import featureExtract as fe
+from featureExtract import Feature
 #constant
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
@@ -47,8 +47,14 @@ for i in xrange(0,num_files):
 
 		if file_labels[i] != TESTING_LABEL:
 
-				featureVectors, im_sp, image = fe.getFeaturesVectors(im_file_names[i], sp_file_names[i])
-				labels = fe.getLabels(label_file_names[i], im_sp)
+				fe = Feature()
+				fe.loadImage(im_file_names[i])
+				fe.loadSuperpixelImage(200, 10)
+				#fe.loadSuperpixelFromFile(sp_file_names[i])
+				fe.loadLabelImage(label_file_names[i])
+
+				featureVectors= fe.getFeaturesVectors()
+				labels = fe.getLabels()
 
 				# store data
 				if file_labels[i] == TRAINING_LABEL:
