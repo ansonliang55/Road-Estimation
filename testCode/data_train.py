@@ -9,20 +9,22 @@ import scipy.io, sys
 import numpy as np
 from sklearn.linear_model import SGDClassifier,SGDRegressor
 import superpixel as sp
+import benchmark as bm
 import slic as sl
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm 
 from sklearn.ensemble import RandomForestClassifer as rf
 from sklearn.ensemble import AdaBoostClassifier as adaBoost
 from sklearn.naive_bayes import GaussianNB
+import time
 #constant
+start = time.clock()
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
 TESTING_LABEL=2
 
 numSegments = 200
 com_factor = 10
-
 data = scipy.io.loadmat('test_data.mat')
 train_data = data[  'train_data']
 valid_data = data['valid_data']
@@ -50,14 +52,10 @@ clf.fit(train_data, train_labels.ravel())
 valid_data = scaler.transform(valid_data)
 #print clf.predict_proba(valid_data[0])
 #wait = input("PRESS ENTER TO CONTINUE.")
-count_correct=0
-total_sample = len(valid_data)
-for i in xrange(0,total_sample):
-		if clf.predict(valid_data[i]) == valid_labels[i]:
-				count_correct+=1
-
-print ('Validation Accuracy: %2.2f%%')%100.0*count_correct/total_sample
-
+end = time.clock()
+time = bm.countTime(start,end)
+superpixelAccu = accuracyOfSuperpixels(valid_data, clf, valid_labels)
+pixelAccu = accuracyOfPixels(superpixels, valid_data, clf, valid_pixels_labels)
 
 sp_file_names = data['sp_file_names'][55].strip()
 im_file_names = data['im_file_names'][55].strip()
