@@ -134,3 +134,18 @@ def showPrediction(clf, superpixels, test_data, image):
 				#		newIm[indices] = [0,0,0]
 		showPlots(newIm, numSuperpixels, superpixels)
 
+def getPairwiseMatrix(superpixels):
+		numSuperpixels = np.max(superpixels)+1
+		[row, col] = superpixels.shape
+		edges = np.zeros((numSuperpixels,numSuperpixels))
+		for i in xrange(0, row-1):
+				for j in xrange(0, col-1):
+						if(superpixels[i][j] != superpixels[i][j+1]):
+								edges[superpixels[i][j]][superpixels[i][j+1]] = 1
+								edges[superpixels[i][j+1]][superpixels[i][j]] = 1
+						if(superpixels[i][j] != superpixels[i+1][j]):
+								edges[superpixels[i][j]][superpixels[i+1][j]] = 1
+								edges[superpixels[i+1][j]][superpixels[i][j]] = 1
+		return edges
+
+

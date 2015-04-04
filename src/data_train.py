@@ -12,7 +12,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from featureExtract import Feature
-
+import networkx as nx
+import matplotlib.pyplot as plt
+import maxflow
 #constant
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
@@ -29,8 +31,8 @@ valid_labels = data['valid_labels']
 scaler = StandardScaler()
 #clf = SGDClassifier(loss="log", penalty="l2")
 #clf = SGDRegressor(loss="squared_loss")
-#clf = GaussianNB()
-clf = svm.SVC(kernel='rbf', probability=True)
+clf = GaussianNB()
+#clf = svm.SVC(kernel='rbf', probability=True)
 scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
@@ -58,6 +60,29 @@ fe.loadSuperpixelImage(200, 10)
 test_data = fe.getFeaturesVectors()
 
 test_data = scaler.transform(test_data)
+
+
+"""
+G=nx.Graph()
+numSuperpixels = np.max(fe.getSuperpixelImage())+1
+for i in xrange(0,numSuperpixels):
+		G.add_node(i)#clf.predict_proba([test_data[i]])[0][1])
+
+edges, edgeValues = fe.getEdges()
+
+ind = np.where(edges != 0)
+
+edgeValues = edgeValues[ind]
+ind = zip(ind[0], ind[1])
+print (ind[i][0],ind[i][1])
+G.add_edges_from(ind, capacity=edgeValues)
+#for i in xrange(0, len(ind)):
+#		G.add_edge(ind[i][0],ind[i][1], capacity=edgeValues[i])
+pos = fe.getSuperpixelLocation()
+nx.draw_networkx(G, pos=pos, with_labels=True)
+plt.show()
+"""
+
 sp.showPrediction(clf, fe.getSuperpixelImage(), test_data, fe.getImage())
 
 

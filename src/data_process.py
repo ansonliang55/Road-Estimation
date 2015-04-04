@@ -56,6 +56,9 @@ for i in xrange(0,num_files):
 				featureVectors= fe.getFeaturesVectors()
 				labels = fe.getLabels()
 
+				#Test purposes
+				fe.getEdges()
+
 				# store data
 				if file_labels[i] == TRAINING_LABEL:
 						train_labels = np.append(train_labels, labels, 0)
