@@ -178,17 +178,19 @@ def getSuperPixelSize(superpixels):
 
 
 # @input 
+#      im_name: name the image output
 #      superpixels: 2D array nxm pixels label 
 #      image: 3D array nxmx3 pixels color original image
 #      numSuperpixels: number of superpixels in superpixels
 # @output (visualize data)
 #      just display the image with marked superpixel boundary
-def showPlots(i,image, numSuperpixels, superpixels):
+def showPlots(im_name, image, numSuperpixels, superpixels):
     # show sample test mean image
     fig = plt.figure("Superpixels -- %d im_sp" % (numSuperpixels))
     ax = fig.add_subplot(1, 1, 1)
     ax.imshow(mark_boundaries(image, superpixels))
-    ax.imsave("000%d.png" % (i),mark_boundaries(image, superpixels))
+    #bugged
+    #ax.imsave("output/000%d.png" % (im_name),mark_boundaries(image, superpixels))
     plt.axis("off")
     plt.show()
 
@@ -199,7 +201,7 @@ def showPlots(i,image, numSuperpixels, superpixels):
 #      image: 2D array nxm original image
 # @output
 #      display output image indicating road
-def showPrediction(clf, superpixels, test_data, image):
+def showPrediction(im_name, clf, superpixels, test_data, image):
     newIm = image
     numSuperpixels = np.max(superpixels)+1
     for i in xrange(0,numSuperpixels):
@@ -209,7 +211,7 @@ def showPrediction(clf, superpixels, test_data, image):
         newIm[indices] = [prediction,prediction,prediction]
         #else:
         #    newIm[indices] = [0,0,0]
-    showPlots(newIm, numSuperpixels, superpixels)
+    showPlots(im_name, newIm, numSuperpixels, superpixels)
 
 # @input 
 #      superpixels: 2D array nxm pixels label 

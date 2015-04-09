@@ -11,31 +11,35 @@ import numpy as np
 class Feature:
     def __init__(self):
         # read input image
-        self.image = []
+        self.im = []
+        self.im_gray = []
         self.im_sp = []
-        self.label_image = []
+        self.label_im = []
         self.sp_location = []
         self.sp_color = []
         self.sp_size = []
+        self.sp_hog = []
+        self.sp_color_hist = []
         self.featureVectors = []
         self.sp_labels = []
         self.edges = []
 
     def loadImage(self, im_file_name):
-        self.image = img_as_float(io.imread(im_file_name))
+        self.im = img_as_float(io.imread(im_file_name))
+        self.im_gray = color.rgb2gray(self.im)
 
     def loadSuperpixelImage(self, numSegments, com_factor):
         # get slic superpixel segmentation
-        if self.image == []:
+        if self.im == []:
             raise Exception("Please load image first")
-        self.im_sp = sl.getSlicSuperpixels(self.image, numSegments, com_factor)
+        self.im_sp = sl.getSlicSuperpixels(self.im, numSegments, com_factor)
 
     def loadSuperpixelFromFile(self, sp_file_name):
         # get slic superpixel segmentation
         self.im_sp = scipy.io.loadmat(sp_file_name)['labels'] 
 
     def loadLabelImage(self, label_file_name):
-        self.label_image = color.rgb2gray(io.imread(label_file_name))#load in grayscale
+        self.label_im = color.rgb2gray(io.imread(label_file_name))#load in grayscale
 
     def getEdges(self): 
         #
@@ -66,23 +70,29 @@ class Feature:
         self.sp_location = sp.getSuperPixelLocations(self.im_sp)
 
         # get superpixel mean color    
-        self.sp_color = sp.getSuperPixelMeanColor(self.im_sp, self.image)
+        self.sp_color = sp.getSuperPixelMeanColor(self.im_sp, self.im)
+
+        # get superpixel histogram of oriented gradient
+        self.sp_hog = sp.getSuperPixelOrientedHistogram(self.im_sp, self.im_gray)
+
+         #get superpixel histogram of color
+        self.sp_color_hist = sp.getSuperPixelColorHistogram(self.im_sp, self.im)
 
         # get superpixel size
         self.sp_size = sp.getSuperPixelSize(self.im_sp)
 
-        self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T)).T
+        self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T, self.sp_hog.T, self.sp_color_hist.T)).T
         return self.featureVectors
 
-    def getLabels(self):
+    def getSuperPixelLabels(self):
 
         # get superpixel label
-        self.sp_labels = sp.getSuperPixelLabel(self.im_sp, self.label_image, 0.5)
+        self.sp_labels = sp.getSuperPixelLabel(self.im_sp, self.label_im, 0.5)
 
         return self.sp_labels
 
     def getImage(self):
-        return self.image
+        return self.im
 
     def getSuperpixelImage(self):
         return self.im_sp
@@ -91,4 +101,4 @@ class Feature:
         return self.sp_location
 
     def getLabelImage(self):
-        return self.label_image
+        return self.label_im
