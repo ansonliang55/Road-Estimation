@@ -1,0 +1,355 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=mex 2014.5.25)  13 MAR 2015 16:30
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**slicmex.c -output slicmex.dll
+(./slicmex.c
+This is MeX  Version 1.05  18 XII 1993  (B. Jackowski & M. Ry\'cko)
+
+Overfull \hbox (190.24696pt too wide) in paragraph at lines 1--12
+[]\tenrm //====================================================================
+=============|
+
+\hbox(7.5+2.5)x469.75499
+.\hbox(0.0+0.0)x20.0
+.\tenrm /
+.\tenrm /
+.\tenrm =
+.\tenrm =
+.etc.
+
+
+Overfull \hbox (498.58096pt too wide) in paragraph at lines 1--12
+\tenrm (EPFL), Swit-zer-land. // // Cre-ated by Ra-dha-kri-shna Achanta on 12/0
+1/15. //=======================================================================
+==========|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\tenrm (
+.\tenrm E
+.\tenrm P
+.\tenrm F
+.\tenrm L
+.etc.
+
+! You can't use `macro parameter character #' in vertical mode.
+l.34 #
+      include<mex.h>
+? q
+OK, entering \batchmode...
+! You can't use `macro parameter character #' in horizontal mode.
+l.35 #
+      include <stdio.h>
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in horizontal mode.
+l.36 #
+      include <math.h>
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in horizontal mode.
+l.37 #
+      include <float.h>
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+Overfull \hbox (39.69034pt too wide) in paragraph at lines 111--113
+[]\tenrm xerr = width - STEP*xstrips;if(xerr < 0)xstrips--;xerr = width - STEP*
+xstrips; yerr = he-ight - STEP*ystrips;if(yerr|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm x
+.\tenrm e
+.\tenrm r
+.\tenrm r
+.etc.
+
+! Misplaced alignment tab character &.
+l.128 ...   if(hexgrid){ seedx = x*STEP+(xoff<<(y&
+                                                  0x1))+xe; if(seedx >= widt...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+ [1]
+! Missing $ inserted.
+<inserted text> 
+                $
+<to be read again> 
+                   _
+l.167 		for(i = 0; i < sz; i++){distvec[i] = DBL_
+                                                 MAX;}
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+l.167 ... = 0; i < sz; i++){distvec[i] = DBL_MAX;}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+<to be read again> 
+                   \par 
+l.168 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (10.9681pt too wide) in paragraph at lines 233--238
+[]\tenrm for( k = 0; k < numk; k++ )  if( clu-ster-size[k] <= 0 ) clu-ster-size
+[k] = 1; inv[k] = 1.0/clu-ster-size[k];//computing|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm f
+.\tenrm o
+.\tenrm r
+.\tenrm (
+.etc.
+
+
+Overfull \hbox (6.30173pt too wide) in paragraph at lines 239--257
+\tenrm mab[k]*inv[k]; kse-edsx[k] = sig-max[k]*inv[k]; kse-edsy[k] = sig-may[k]
+*inv[k];   mxFree(sigmal); mxFree(sigmaa);|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\tenrm m
+.\tenrm a
+.\tenrm b
+.\tenrm [
+.\tenrm k
+.etc.
+
+! Misplaced alignment tab character &.
+l.294 					if( (x >= 0 &
+                        & x < width) && (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.294 					if( (x >= 0 &&
+                          x < width) && (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.294 					if( (x >= 0 && x < width) &
+                                      & (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.294 					if( (x >= 0 && x < width) &&
+                                        (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.294 					if( (x >= 0 && x < width) && (y >= 0 &
+                                                 & y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.294 					if( (x >= 0 && x < width) && (y >= 0 &&
+                                                   y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.309 						if( (x >= 0 &
+                         & x < width) && (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.309 						if( (x >= 0 &&
+                           x < width) && (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.309 						if( (x >= 0 && x < width) &
+                                       & (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.309 						if( (x >= 0 && x < width) &&
+                                         (y >= 0 && y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.309 						if( (x >= 0 && x < width) && (y >= 0 &
+                                                  & y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.309 ...		if( (x >= 0 && x < width) && (y >= 0 &&
+                                                   y < height) )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.313 							if( 0 > nlabels[nindex] &
+                                      & labels[oindex] == labels[nindex] )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Misplaced alignment tab character &.
+l.313 							if( 0 > nlabels[nindex] &&
+                                        labels[oindex] == labels[nindex] )
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+ [2]
+! Misplaced alignment tab character &.
+l.445 ...ABXYSeeds(step,width,height,seedIndices,&
+                                                  numseeds);
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
+Overfull \hbox (45.71811pt too wide) in paragraph at lines 408--446
+[]\tenrm //--------------------------- // Per-form co-lor co-nver-sion //------
+--------------------- //if(2 == num-dims) if(numelements/sz|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm /
+.\tenrm /
+.\tenrm | (ligature ---)
+.\discretionary
+.etc.
+
+
+Overfull \hbox (6.91267pt too wide) in paragraph at lines 408--446
+\tenrm sqrt((double)(sz)/(double)(numSuperpixels))+0.5; ge-tLA-BXY-Se-eds(step,
+width,height,seedIndices,numseeds); |
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\tenrm s
+.\tenrm q
+.\tenrm r
+.\tenrm t
+.\tenrm (
+.etc.
+
+! Misplaced alignment tab character &.
+l.467 ...els,width,height,numSuperpixels,clabels,&
+                                                  finalNumberOfLabels);
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+<to be read again> 
+                   _
+l.471 ...CreateNumericMatrix(height,width,mxINT32_
+                                                  CLASS,mxREAL);
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+l.505 }
+       
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+)
+! Emergency stop.
+<*> slicmex.c -output slicmex.dll
+                                 
+*** (job aborted, no legal \end found)
+
+Output written on slicmex.dvi (2 pages, 11280 bytes).
