@@ -134,6 +134,10 @@ def showPrediction(clf, superpixels, test_data, image):
 				#		newIm[indices] = [0,0,0]
 		showPlots(newIm, numSuperpixels, superpixels)
 
+# @input 
+#      superpixels: 2D array nxm pixels label 
+# @output
+#      edges: pairwise matrix   
 def getPairwiseMatrix(superpixels):
 		numSuperpixels = np.max(superpixels)+1
 		[row, col] = superpixels.shape
