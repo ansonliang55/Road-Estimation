@@ -76,8 +76,8 @@
 }
 \author{
 		\normalfont 								\normalsize
-        Jia Ming Liang\\[-3pt]		\normalsize
-        Wenjie Zi\\[-3pt]		\normalsize
+        Jia Ming Liang, Wenjie Zi\\[-3pt]		\normalsize
+        \{ansonlia, wenjie\}@cs.toronto.edu\\[-3pt]		\normalsize
         \today
 }
 \date{}
@@ -90,23 +90,28 @@
 
 One problem with autonomous driving car is to recognize the road in the scene captured by a camera setup in the front of the car. This is a binary classification problem because we want to determine whether a pixel in the captured scene belongs to road or non-road. The goal of our project is to evaluate different machine learning techniques that can be used to solve this problem. \\
 
-For the purpose of our project, we use the base kit of KITTI with training label data \cite{bib:kitti}. We split the training data into training (60\%), validation (10\%) and testing (30\%). We have done this using a random method. This allows us to use the k-fold cross-validation technique.\\
+For the purpose of our project, we use the base kit of KITTI with training label data \cite{bib:kitti}. The base kit contains 289 training images and 289 labeled images (ground truth image labeling the road). There are 3 types of scene in these training images: 95 urban marked (UM) images, 98 urban unmarked images and 96 urban multiple marked lanes images. "Marked" means that the road has lane marking. We split the training data randomly into training (60\%), validation (10\%) and testing (30\%). This allows us to use the k-fold cross-validation technique.\\
 
-Our program is mainly written in Python. The core parts of our code include: feature extraction, data training and results evaluation. To simplify some of our implementation, we have utilized various Python libraries in our code including skimage and sklearn. We will explain how we use these libraries later in this report.
+
+Our program is mainly written in Python. The core parts of our code include: feature extraction, data training and results evaluation. To simplify some of our implementation, we have utilized various Python libraries in our code including skimage and sklearn \cite{bib:skimage,bib:sklearn}. We will explain how we use these libraries later in this report.
 
 \if
-Write in your report what you have done, what you observe, what you have tried, why you did what you did, etc.
-
-Make a section of your report about what would you do to scale what you have done to work with pixels, as in that case you have millions of examples. You don't need to implement anything
-but add a discussion of your ideas.
-
 BONUS: The use of "fancy" techniques such as Markov Random Fields should only be attempted if you want an extra bonus on the project (up to 30\% extra). These type of techniques are only cover in class as a review of exciting things in machine learning and thus I do not expect students to try such things for the purpose of the project.
 \fi
 \section{Feature Extraction}
+The main part of our solution to the road-estimation problem is extracting features from the training images. In this section, we will explain what we implemented to extract the input image features and how each feature affect our result. 
+
 \subsection{Superpixels}
+Our input image has the size 1242x375, which gives us 465750 pixels per image. Since we have 289 training images, that give us about 135 million pixels to process. To easy the computation, we first compute the superpixel for each input image using the SLIC superpixel algorithm \cite{bib:slic}. For simplification purposes, we used the slic function in the skimage library \cite{bib:skimage} to directly compute the superpixel for each image.
+
+<need to finsih this using some image explaination with various parameter set and results>
+
 \subsection{Basic Features}
 \subsection{Histogram of Gradient}
 \subsection{Color Histogram}
+\subsection{Scaling to pixel-wise}
+Make a section of your report about what would you do to scale what you have done to work with pixels, as in that case you have millions of examples. You don't need to implement anything
+but add a discussion of your ideas. 
 
 \section{Data Training}
 \subsection{Preprocessing}
@@ -120,13 +125,16 @@ BONUS: The use of "fancy" techniques such as Markov Random Fields should only be
 
 \section{Conclusion}
 
-
 \begin{thebibliography}{9}
 
 \bibitem{bib:kitti}
   http://www.cvlibs.net/datasets/kitti/eval$\_$road.php
 \bibitem{bib:slic}
   http://ivrg.epfl.ch/research/superpixels$\#$SLICO. 
+\bibitem{bib:skimage}
+  http://scikit-image.org/docs/dev/api/skimage.segmentation.html$\#$skimage.segmentation
+\bibitem{bib:sklearn}
+  http://scikit-learn.org/stable/
 \end{thebibliography}
 
 
