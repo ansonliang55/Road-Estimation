@@ -14,7 +14,7 @@ def countTime(startTime, endTime):
 
 #@input: 2D result of the prediction
 #        2D labels
-#@output: the probility of accuracy in superpixel level
+#@output: the probability of accuracy in superpixel level
 
 def accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels):
     count_correct=0

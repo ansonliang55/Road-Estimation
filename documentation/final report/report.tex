@@ -71,12 +71,13 @@
 		\usefont{OT1}{bch}{b}{n}
 		\normalfont \normalsize \textsc{UoT CSC2515 - Introduction to Machine Learning Spring 2015} \\ [25pt]
 		\horrule{0.5pt} \\[0.4cm]
-		\huge Project Proposal \\
+		\huge Evaluation of Various Machine Learning Techniques for Road-Estimation \\
 		\horrule{2pt} \\[0.5cm]
 }
 \author{
 		\normalfont 								\normalsize
-        Jia Ming (Anson) Liang\\[-3pt]		\normalsize Wenjie (Richie) Zi\\[-3pt]		\normalsize
+        Jia Ming Liang\\[-3pt]		\normalsize
+        Wenjie Zi\\[-3pt]		\normalsize
         \today
 }
 \date{}
@@ -85,23 +86,48 @@
 %%% Begin document
 \begin{document}
 \maketitle
+\section{Introduction}
 
-Graduation date:\\
-	Both of us are not graduating in June 2015\\
+One problem with autonomous driving car is to recognize the road in the scene captured by a camera setup in the front of the car. This is a binary classification problem because we want to determine whether a pixel in the captured scene belongs to road or non-road. The goal of our project is to evaluate different machine learning techniques that can be used to solve this problem. \\
 
-Project choice:\\
-	Autonomous Driving: Road-Estimation\\
+For the purpose of our project, we use the base kit of KITTI with training label data \cite{bib:kitti}. We split the training data into training (60\%), validation (10\%) and testing (30\%). We have done this using a random method. This allows us to use the k-fold cross-validation technique.\\
+
+Our program is mainly written in Python. The core parts of our code include: feature extraction, data training and results evaluation. To simplify some of our implementation, we have utilized various Python libraries in our code including skimage and sklearn. We will explain how we use these libraries later in this report.
+
+\if
+Write in your report what you have done, what you observe, what you have tried, why you did what you did, etc.
+
+Make a section of your report about what would you do to scale what you have done to work with pixels, as in that case you have millions of examples. You don't need to implement anything
+but add a discussion of your ideas.
+
+BONUS: The use of "fancy" techniques such as Markov Random Fields should only be attempted if you want an extra bonus on the project (up to 30\% extra). These type of techniques are only cover in class as a review of exciting things in machine learning and thus I do not expect students to try such things for the purpose of the project.
+\fi
+\section{Feature Extraction}
+\subsection{Superpixels}
+\subsection{Basic Features}
+\subsection{Histogram of Gradient}
+\subsection{Color Histogram}
+
+\section{Data Training}
+\subsection{Preprocessing}
+\subsection{Naive Bayes}
+\subsection{K-nearest Neighbor}
+\subsection{Adaboost}
+\subsection{Random Forest}
+\subsection{Support Vector Machine}
+
+\section{Results Evaluation}
+
+\section{Conclusion}
 
 
+\begin{thebibliography}{9}
 
-
-
-
-
-
-
-
-
+\bibitem{bib:kitti}
+  http://www.cvlibs.net/datasets/kitti/eval$\_$road.php
+\bibitem{bib:slic}
+  http://ivrg.epfl.ch/research/superpixels$\#$SLICO. 
+\end{thebibliography}
 
 
 
