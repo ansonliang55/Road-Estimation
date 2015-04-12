@@ -18,6 +18,7 @@ class Feature:
         self.sp_location = []
         self.sp_color = []
         self.sp_size = []
+        self.sp_shape = []
         self.sp_hog = []
         self.sp_color_hist = []
         self.featureVectors = []
@@ -72,16 +73,19 @@ class Feature:
         # get superpixel mean color    
         self.sp_color = sp.getSuperPixelMeanColor(self.im_sp, self.im)
 
+        # get superpixel shape
+        self.sp_shape = sp.getSuperPixelShape(self.im_sp)
+
         # get superpixel histogram of oriented gradient
-        self.sp_hog = sp.getSuperPixelOrientedHistogram(self.im_sp, self.im_gray)
+        #self.sp_hog = sp.getSuperPixelOrientedHistogram(self.im_sp, self.im_gray)
 
          #get superpixel histogram of color
-        self.sp_color_hist = sp.getSuperPixelColorHistogram(self.im_sp, self.im)
+        #self.sp_color_hist = sp.getSuperPixelColorHistogram(self.im_sp, self.im)
 
         # get superpixel size
         self.sp_size = sp.getSuperPixelSize(self.im_sp)
 
-        self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T, self.sp_hog.T, self.sp_color_hist.T)).T
+        self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_shape.T, self.sp_size.T)).T#, self.sp_hog.T, self.sp_color_hist.T)).T
         return self.featureVectors
 
     def getSuperPixelLabels(self):

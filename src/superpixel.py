@@ -32,6 +32,33 @@ def getSuperPixelLocations(superpixels):
 
 # @input 
 #      superpixels: 2D array nxm pixels label 
+# @output
+#      locations: 2D array 64xK dimension shape mask of all superpixels
+def getSuperPixelShape(superpixels):
+
+    shape = []
+    numSuperpixels = np.max(superpixels)+1
+    for i in xrange(0,numSuperpixels):
+        temp = np.zeros((1,64),dtype = float)
+        indices = np.where(superpixels == i)
+        width = np.max(indices[0]) - np.min(indices[0])
+        height = np.max(indices[1]) - np.min(indices[1])
+        boxWidth = np.max((width, height))
+        boundingBox = np.zeros((boxWidth+1, boxWidth+1))
+        x = indices[0] - np.min(indices[0])
+        y = indices[1] - np.min(indices[1])
+        boundingBox[(x,y)] = 1
+        boundingBox = boundingBox.ravel()
+        binWidth = 1.0*len(boundingBox)/64
+        for j in xrange(0,len(boundingBox)):
+            if boundingBox[j] == 1:
+                x = j/binWidth
+                temp[0][x] = temp[0][x]+1
+        shape.append(1.0*temp[0]/np.sum(temp[0]))
+    return np.array(shape)
+
+# @input 
+#      superpixels: 2D array nxm pixels label 
 #      image: 3D array nxmx3 pixels color original image
 # @output
 #      color: 2D array nx3 mean color of all superpixels

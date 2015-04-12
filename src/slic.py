@@ -15,7 +15,7 @@ from superpixel import showPlots
 def getSlicSuperpixels(image, numSegments, com_factor):
     superpixels = slic(image, n_segments = numSegments, sigma = com_factor)
     # code for display results
-    #showPlots(image, numSegments, superpixels)
+    #showPlots(1, image, numSegments, superpixels)
     return superpixels
 
 
