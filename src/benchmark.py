@@ -16,7 +16,7 @@ def countTime(startTime, endTime):
 #        2D labels
 #@output: the probability of accuracy in superpixel level
 
-def accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels):
+def accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels,validationOriginalImage):
     count_correct=0
  #   print valid_files.shape
     indices = np.where(valid_files == file_num)[0]
@@ -25,12 +25,13 @@ def accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels):
     for i in range(0,total_samples):
         if clf.predict(valid_data[indices[i]]) == valid_labels[indices[i]]:
                 count_correct+=1
+    print validationOriginalImage[file_num]
     print ('Validation Accuracy (Superpixel level): %2.2f%%')%(100.0*count_correct/total_samples)
     return count_correct, total_samples
 #@input: 2D result of the prediction
 #        2D labels
 #@output: the probility of accuracy in pixel level
-def accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_pixels_labels):
+def accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_pixels_labels,validationOriginalImage):
     count_correct = 0
     total_count = 0
 
@@ -46,6 +47,7 @@ def accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_p
         for j in range(0,index.shape[0]): 
             if predict_result == temp2[index[j][0]][index[j][1]]:
                count_correct+=1
+    print validationOriginalImage[file_num]
     print ('Validation Accuracy (Pixel level): %2.2f%%')%(100.0*count_correct/total_count)
     return count_correct, total_count
 
