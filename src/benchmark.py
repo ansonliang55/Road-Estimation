@@ -45,13 +45,13 @@ def accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_p
     total_samples = indicess.shape[0]
     for i in range(0,total_samples):
         temp = np.array(superpixels[file_num][0])
- #       index = []
+        index = []
         temp2 = np.array(valid_pixels_labels[file_num][0])
-        index = np.where(temp2 == i)
-#        for j in range(0, temp.shape[0]):
-#            for k in range(0, temp.shape[1]):
-#               if temp[j][k] == i:
-#                    index.append([j,k])
+#       index = np.where(temp2 == i)
+        for j in range(0, temp.shape[0]):
+            for k in range(0, temp.shape[1]):
+               if temp[j][k] == i:
+                    index.append([j,k])
         index = np.array(index)
         total_count = total_count + index.shape[0]
         predict_result = clf.predict(valid_data[indicess[i]])

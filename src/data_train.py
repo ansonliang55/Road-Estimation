@@ -19,7 +19,7 @@ import time
 from featureExtract import Feature
 import networkx as nx
 import matplotlib.pyplot as plt
-import maxflow
+#import maxflow
 
 
 # function used for getting a classifiers
@@ -68,7 +68,7 @@ clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()
 
-"""
+
 # benchmark using validation data
 valid_data = scaler.transform(valid_data)
 #print clf.predict_proba(valid_data[0])
@@ -79,7 +79,7 @@ time = bm.countTime(start,end)
 for file_num in range(0, valid_files_count):
     superpixelAccu = bm.accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels)
     pixelAccu = bm.accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_pixels_labels)
-"""
+
 
 for file_num in range(0,1):#test_files_count):
     # see test results
