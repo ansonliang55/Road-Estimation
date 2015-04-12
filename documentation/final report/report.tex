@@ -113,29 +113,28 @@ Since the training images are taking by a camera in front of the car facing the 
 
 Also, most larger superpixels are located at textures that look very flat and have very little edges. Although superpixels that are located at textures that are flat and non-road are also larger but at least we can eliminate the ones that are smaller and close to the edge of the road (see Figure \cite{fig:smallsuperpixel}). Hence, counting number of pixels in a superpixel can be used as a feature.\\
 
-We also observe that the superpixel that have a irregular shape  are usually not part of the road. Hence, we can extract the shape of the superpixel as the feature as well. We can simply use the width and length of the superpixel.\\
+We also observe that the superpixel that have a irregular shape  are usually not part of the road. Hence, we can extract the shape of the superpixel as the feature as well. To do that, we first use a sqare mask that has the width equal to the largest dimension (width or length) of the superpixel. We then flat out the mask and convert it to a 64-bin size histogram.  \\
 
 Now we have described all the basic features we extracted from a superpixels:
 \begin{enumerate}
 	\item 3 dimensions superpixel mean color (R, G and B).
 	\item 2 dimensions superpixel location (x and y).
 	\item 1 dimension superpixel size (pixels count)
-	\item 2 dimensions superpixel shape (height and width)
+	\item 64 dimensions superpixel shape (histogram of shape in a 8x8 mask)
 \end{enumerate}
 
 In total we have 8 dimensions of basic feature vector. In the results evaluation section, we will discuss how each feature affect the accuracy of the prediction.
 
 
 
-
-
-\subsection{Histogram of Gradient}
+\subsection{Histogram of Orientation Gradient}
 \subsection{Color Histogram}
 \subsection{Scaling to pixel-wise}
 Make a section of your report about what would you do to scale what you have done to work with pixels, as in that case you have millions of examples. You don't need to implement anything
 but add a discussion of your ideas. 
 
 \section{Data Training}
+The feature extraction mainly focus on extracting superpixel feature vectors for our training. The result is a M by N dimensional matrix and a N dimensional vector with corresponding label, where M is the number of dimension for the feature vector and N is the number of superpixels extracted from all input images. 
 \subsection{Preprocessing}
 \subsection{Naive Bayes}
 \subsection{K-nearest Neighbor}
