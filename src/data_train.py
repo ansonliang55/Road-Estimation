@@ -57,6 +57,7 @@ valid_files_count = data['valid_files_count']
 superpixels = data['superpixels']
 valid_pixels_labels = data['valid_pixels_labels']
 test_files_count = data['test_files_count']
+validationOriginalImage = data['validationOriginalImage']
 #print valid_files
 
 # record time used for training
@@ -81,9 +82,15 @@ valid_data = scaler.transform(valid_data)
 end = time.clock()
 print end
 time = bm.countTime(start,end)
+superpixelTotal = pixelTotal = superpixelCorrect = pixelCorrect = 0
 for file_num in range(0, valid_files_count):
-    superpixelAccu = bm.accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels)
-    pixelAccu = bm.accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_pixels_labels)
+    temp1, temp2 = bm.accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels,validationOriginalImage)
+    temp3, temp4 = bm.accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_pixels_labels,validationOriginalImage)
+    superpixelCorrect = superpixelCorrect + temp1
+    superpixelTotal = superpixelTotal + temp2
+    pixelCorrect = pixelCorrect + temp3
+    pixelTotal = pixelTotal +temp4
+bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
 
 
 for file_num in range(0,1):#test_files_count):
