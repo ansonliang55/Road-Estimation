@@ -229,16 +229,19 @@ def showPlots(im_name, image, numSuperpixels, superpixels):
 # @output
 #      display output image indicating road
 def showPrediction(im_name, clf, superpixels, test_data, image):
-    newIm = image
+    newIm = np.zeros((image.shape[0], image.shape[1], image.shape[2]))
     numSuperpixels = np.max(superpixels)+1
     for i in xrange(0,numSuperpixels):
         indices = np.where(superpixels==i)
         prediction = clf.predict_proba([test_data[i]])[0][1]
         #if prediction == 1:
-        newIm[indices] = [prediction,prediction,prediction]
+        newIm[indices] = [0,prediction,0]
         #else:
         #    newIm[indices] = [0,0,0]
-    showPlots(im_name, newIm, numSuperpixels, superpixels)
+        indices = np.where(newIm > 0.5)
+        
+        image[indices] = newIm[indices]
+    showPlots(im_name, image, numSuperpixels, superpixels)
 
 # @input 
 #      superpixels: 2D array nxm pixels label 
