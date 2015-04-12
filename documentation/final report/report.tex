@@ -107,6 +107,28 @@ Our input image has the size 1242x375, which gives us 465750 pixels per image. S
 <need to finsih this using some image explaination with various parameter set and results>
 
 \subsection{Basic Features}
+Now our classification is done on superpixels, our features need to be extracted from these superpixels. The most obvious feature for the superpixels feature is color. Based on the SLIC superpixel results, we can see that very similar color neighboring pixels are grouped together to form one superpixel. Hence, we first use the mean color of the superpixel by averaging out each of the red, green and blue color for all the pixels within a superpixel. The resulting image looks like Figure \cite{fig:meanslic}. \\
+
+Since the training images are taking by a camera in front of the car facing the road, the road is almost always located at the center bottom of the image. Pixels are less likelily to be road the further away they are from the center bottom of the image. Of course, this applies to superpixel as well. Hence, the location of the superpixel is also an important feature.\\ 
+
+Also, most larger superpixels are located at textures that look very flat and have very little edges. Although superpixels that are located at textures that are flat and non-road are also larger but at least we can eliminate the ones that are smaller and close to the edge of the road (see Figure \cite{fig:smallsuperpixel}). Hence, counting number of pixels in a superpixel can be used as a feature.\\
+
+We also observe that the superpixel that have a irregular shape  are usually not part of the road. Hence, we can extract the shape of the superpixel as the feature as well. We can simply use the width and length of the superpixel.\\
+
+Now we have described all the basic features we extracted from a superpixels:
+\begin{enumerate}
+	\item 3 dimensions superpixel mean color (R, G and B).
+	\item 2 dimensions superpixel location (x and y).
+	\item 1 dimension superpixel size (pixels count)
+	\item 2 dimensions superpixel shape (height and width)
+\end{enumerate}
+
+In total we have 8 dimensions of basic feature vector. In the results evaluation section, we will discuss how each feature affect the accuracy of the prediction.
+
+
+
+
+
 \subsection{Histogram of Gradient}
 \subsection{Color Histogram}
 \subsection{Scaling to pixel-wise}
