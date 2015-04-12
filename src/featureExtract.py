@@ -85,7 +85,9 @@ class Feature:
         # get superpixel size
         self.sp_size = sp.getSuperPixelSize(self.im_sp)
 
-        self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T)).T#, self.sp_hog.T, self.sp_color_hist.T)).T
+        # basic feature vector
+        self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T)).T
+        
         return self.featureVectors
 
     def getSuperPixelLabels(self):
