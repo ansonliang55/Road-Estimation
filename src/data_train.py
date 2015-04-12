@@ -20,6 +20,11 @@ from featureExtract import Feature
 import networkx as nx
 import matplotlib.pyplot as plt
 #import maxflow
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('train_db_path', help='Path to training database')
+arguments = parser.parse_args()
 
 
 # function used for getting a classifiers
@@ -42,7 +47,7 @@ TESTING_LABEL=2
 numSegments = 200
 com_factor = 10
 
-data = scipy.io.loadmat('test_data.mat')
+data = scipy.io.loadmat(arguments.train_db_path)
 train_data = data['train_data']
 valid_data = data['valid_data']
 train_labels = data['train_labels']
@@ -63,7 +68,7 @@ scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
 # set classifier and fit data
-clf = chooseClassification('RF')
+clf = chooseClassification('NB')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()

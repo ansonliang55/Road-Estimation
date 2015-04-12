@@ -11,6 +11,12 @@ import numpy as np
 import glob
 import random
 from featureExtract import Feature
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('output_file', type=str, help='output filename')
+
+arguments = parser.parse_args()
 
 #constant
 TRAINING_LABEL=0
@@ -97,4 +103,4 @@ for i in xrange(0,num_files):
 print np.array(train_data).shape # show total number of superpixels
 
 
-scipy.io.savemat('test_data.mat', {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'superpixels':superpixels,'test_files_count':test_files_count}, oned_as='column')
+scipy.io.savemat(arguments.output_file, {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'superpixels':superpixels,'test_files_count':test_files_count}, oned_as='column')
