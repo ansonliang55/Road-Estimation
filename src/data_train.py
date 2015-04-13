@@ -32,9 +32,9 @@ def chooseClassification(name):
     print "Choosen classfier:",name
     return {
         'NB': GaussianNB(),
-        'KNN': knn(21),
-        'ADA': adaBoost(n_estimators=100),
-        'RF': rf(n_estimators = 30),
+        'KNN': knn(10),
+        'ADA': adaBoost(n_estimators=50),
+        'RF': rf(n_estimators = 50),
         'SVM': svm.SVC(kernel='rbf', probability=True),
         }.get(name, GaussianNB())    # default Gaussian Naive Bayes
 
@@ -54,7 +54,7 @@ train_labels = data['train_labels']
 valid_labels = data['valid_labels']
 valid_files = data['valid_files']
 valid_files_count = data['valid_files_count']
-superpixels = data['superpixels']
+superpixels = data['valid_superpixels']
 valid_pixels_labels = data['valid_pixels_labels']
 test_files_count = data['test_files_count']
 validationOriginalImage = data['validationOriginalImage']
@@ -69,7 +69,7 @@ scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
 # set classifier and fit data
-clf = chooseClassification('NB')
+clf = chooseClassification('RF')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()

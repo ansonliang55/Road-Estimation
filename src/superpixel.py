@@ -121,13 +121,13 @@ def getSuperPixelOrientedHistogram(superpixels,image):
     fd, hog_image = hog(image, orientations=8, pixels_per_cell=(16, 16), cells_per_block=(1, 1), visualise=True)
     hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 0.02))
     for i in xrange(0,numSuperpixels):
-        temp = np.zeros((1,5),dtype = int)
+        temp = np.zeros((1,10),dtype = int)
         indices = np.where(superpixels==i)
         gradient = hog_image_rescaled[indices]
         for j in xrange(0, gradient.shape[0]):
-            x = np.int_(gradient[j] / 0.2)
-            if x == 5:
-                x = 4
+            x = np.int_(gradient[j] / 0.1)
+            if x == 10:
+                x = 9
             temp[0][x] = temp[0][x] + 1
         #preprocessing.normalize(temp[0])
         gradients.append(temp[0])
