@@ -55,8 +55,13 @@ valid_pixels_labels = []
 valid_files = []
 valid_files_count = 0
 test_files_count = 0
-superpixels = []
+valid_superpixels = []
 validationOriginalImage = []
+train_superpixels = []
+train_edges = []
+train_edgesFeatures = []
+valid_edges = []
+valid_edgesFeatures = []
 
 for i in xrange(0,num_files):
 
@@ -72,10 +77,13 @@ for i in xrange(0,num_files):
         labels = fe.getSuperPixelLabels()
 
         #Test purposes
-        fe.getEdges()
+        edges, edgeFeaures = fe.getEdges()
 
         # store data
         if file_labels[i] == TRAINING_LABEL:
+            train_superpixels.append(fe.getSuperpixelImage())
+            train_edges.append(edges)
+            train_edgesFeatures.append(edgeFeaures)
             train_labels = np.append(train_labels, labels, 0)
             if train_data==[]:
                 train_data = featureVectors
@@ -83,7 +91,9 @@ for i in xrange(0,num_files):
                 train_data = np.vstack((train_data,featureVectors))
         else:
             # get superpixel valid files
-            superpixels.append(fe.getSuperpixelImage())
+            valid_edges.append(edges)
+            valid_edgesFeatures.append(edgeFeaures)
+            valid_superpixels.append(fe.getSuperpixelImage())
             validationOriginalImage.append(im_file_names[i])
             # these two lines need to be added into featureExtraction class
             valid_files = sp.getSuperValidFiles(fe.getSuperpixelImage(), valid_files_count, valid_files)
@@ -104,8 +114,5 @@ for i in xrange(0,num_files):
 print np.array(train_data).shape # show total number of superpixels
 
 
-<<<<<<< HEAD
-scipy.io.savemat(arguments.output_file, {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'superpixels':superpixels,'test_files_count':test_files_count}, oned_as='column')
-=======
-scipy.io.savemat('test_data.mat', {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'superpixels':superpixels,'test_files_count':test_files_count,'validationOriginalImage':validationOriginalImage}, oned_as='column')
->>>>>>> test
+
+scipy.io.savemat('test_data.mat', {'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'valid_superpixels':valid_superpixels,'train_superpixels':train_superpixels,'test_files_count':test_files_count,'validationOriginalImage':validationOriginalImage,'valid_edges':valid_edges,'train_edges':train_edges,'valid_edgesFeatures':valid_edgesFeatures,'train_edgesFeatures':train_edgesFeatures}, oned_as='column')
