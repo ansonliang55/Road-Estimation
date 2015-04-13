@@ -9,6 +9,7 @@ import scipy.io, sys
 import numpy as np
 from sklearn.linear_model import SGDClassifier,SGDRegressor
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import RandomizedPCA
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier as rf
@@ -44,8 +45,6 @@ TRAINING_LABEL=0
 VALIDATION_LABEL=1
 TESTING_LABEL=2
 
-numSegments = 200
-com_factor = 10
 
 data = scipy.io.loadmat(arguments.train_db_path)
 train_data = data['train_data']
@@ -68,8 +67,15 @@ scaler = StandardScaler()
 scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
+# Preprocessing RandomizePCA
+print train_data.shape
+pca = RandomizedPCA(n_components=11)
+pca.fit(train_data)
+train_data = pca.transform(train_data)
+
+print train_data.shape
 # set classifier and fit data
-clf = chooseClassification('NB')
+clf = chooseClassification('RF')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()
@@ -77,6 +83,7 @@ clf = clf.fit(train_data,train_labels.ravel())
 
 # benchmark using validation data
 valid_data = scaler.transform(valid_data)
+valid_data = pca.transform(valid_data)
 #print clf.predict_proba(valid_data[0])
 #wait = input("PRESS ENTER TO CONTINUE.")
 end = time.clock()
@@ -93,7 +100,7 @@ for file_num in range(0, valid_files_count):
 bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
 
 
-for file_num in range(0,1):#test_files_count):
+for file_num in range(0,2):#test_files_count):
     # see test results
     sp_file_names = data['sp_file_names'][file_num].strip()
     im_file_names = data['im_file_names'][file_num].strip()
@@ -101,11 +108,13 @@ for file_num in range(0,1):#test_files_count):
     # Extract features from image files
     fe = Feature()
     fe.loadImage(im_file_names)
-    fe.loadSuperpixelImage(200, 10)
+    fe.loadSuperpixelImage()
+    
     test_data = fe.getFeaturesVectors()
-
+   # edges, feat = fe.getEdges()
     # Normalize data
     test_data = scaler.transform(test_data)
+    test_data = pca.transform(test_data)
 
     sp.showPrediction(file_num, clf, fe.getSuperpixelImage(), test_data, fe.getImage())
 
