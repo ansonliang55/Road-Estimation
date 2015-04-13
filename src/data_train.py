@@ -1,7 +1,7 @@
 """
 Written by: Anson Liang, Wenjie Zi
 """
-
+from sklearn.ensemble import BaggingClassifier
 from skimage import io, color
 from skimage.util import img_as_float
 import superpixel as sp
@@ -36,6 +36,10 @@ def chooseClassification(name):
         'ADA': adaBoost(n_estimators=50),
         'RF': rf(n_estimators = 50),
         'SVM': svm.SVC(kernel='rbf', probability=True),
+        'KNNBOOST':BaggingClassifier(base_estimator=knn(),
+                             bootstrap=True,
+                             bootstrap_features=False,
+                             oob_score=True),
         }.get(name, GaussianNB())    # default Gaussian Naive Bayes
 
 
@@ -69,11 +73,10 @@ scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
 # set classifier and fit data
-clf = chooseClassification('RF')
+clf = chooseClassification('KNNBOOST')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()
-
 
 # benchmark using validation data
 valid_data = scaler.transform(valid_data)
@@ -90,7 +93,7 @@ for file_num in range(0, valid_files_count):
     superpixelTotal = superpixelTotal + temp2
     pixelCorrect = pixelCorrect + temp3
     pixelTotal = pixelTotal +temp4
-bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
+#bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
 
 
 for file_num in range(0,1):#test_files_count):
