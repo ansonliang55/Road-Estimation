@@ -44,8 +44,8 @@ TRAINING_LABEL=0
 VALIDATION_LABEL=1
 TESTING_LABEL=2
 
-numSegments = 200
-com_factor = 10
+numSegments = 400
+com_factor = 3
 
 data = scipy.io.loadmat(arguments.train_db_path)
 train_data = data['train_data']
@@ -54,7 +54,12 @@ train_labels = data['train_labels']
 valid_labels = data['valid_labels']
 valid_files = data['valid_files']
 valid_files_count = data['valid_files_count']
-superpixels = data['superpixels']
+train_superpixels = data['train_superpixels']
+valid_superpixels = data['valid_superpixels']
+train_edges = data['train_edges']
+valid_edges = data['valid_edges']
+train_edgesFeatures = data['train_edgesFeatures']
+valid_edgesFeatures = data['valid_edgesFeatures']
 valid_pixels_labels = data['valid_pixels_labels']
 test_files_count = data['test_files_count']
 validationOriginalImage = data['validationOriginalImage']
@@ -85,7 +90,7 @@ time = bm.countTime(start,end)
 superpixelTotal = pixelTotal = superpixelCorrect = pixelCorrect = 0
 for file_num in range(0, valid_files_count):
     temp1, temp2 = bm.accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels,validationOriginalImage)
-    temp3, temp4 = bm.accuracyOfPixels(file_num,valid_files, superpixels, valid_data, clf, valid_pixels_labels,validationOriginalImage)
+    temp3, temp4 = bm.accuracyOfPixels(file_num,valid_files, valid_superpixels, valid_data, clf, valid_pixels_labels,validationOriginalImage)
     superpixelCorrect = superpixelCorrect + temp1
     superpixelTotal = superpixelTotal + temp2
     pixelCorrect = pixelCorrect + temp3
@@ -101,7 +106,7 @@ for file_num in range(0,1):#test_files_count):
     # Extract features from image files
     fe = Feature()
     fe.loadImage(im_file_names)
-    fe.loadSuperpixelImage(200, 10)
+    fe.loadSuperpixelImage(numSegments, com_factor)
     test_data = fe.getFeaturesVectors()
 
     # Normalize data

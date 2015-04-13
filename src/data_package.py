@@ -58,7 +58,7 @@ for i in range (0, len(train_edges)):
     labels = np.zeros([1,trainSuperpixelNum],dtype = int)
     for j in range (0, trainSuperpixelNum):
         labels[0][j] = train_labels[i*trainSuperpixelNum + j]
-    train_X.append((unary,edges,labels[0]))
+    train_Y.append(labels[0])
 
 data_train = {'X':train_X,'Y':train_Y}
 cPickle.dump(data_train,open("data_train.pickle","wb"))
@@ -83,6 +83,6 @@ for i in range (0, len(valid_edges)):
     labels = np.zeros([1,validSuperpixelNum],dtype = int)
     for j in range (0, validSuperpixelNum):
         labels[0][j] = valid_labels[i*validSuperpixelNum + j]
-    train_X.append((unary,edges,labels[0]))
+    valid_Y.append(labels[0])
 data_valid = {'X':valid_X,'Y':valid_Y}
 cPickle.dump(data_valid,open("data_val_dict.pickle","wb"))

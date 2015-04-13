@@ -9,14 +9,20 @@ from pystruct.utils import SaveLogger
 data_train = cPickle.load(open("data_train.pickle"))
 C = 0.01
 
+x = data_train['X']
+print type(x)
+print len(x)
+print type(x[0])
+print len(x[0])
+print type(x[0][0])
+print x[0][0].shape
 n_states = 2
 print("number of samples: %s" % len(data_train['X']))
 class_weights = 1. / np.bincount(np.hstack(data_train['Y']))
-class_weights *= 21. / np.sum(class_weights)
+class_weights *= 2. / np.sum(class_weights)
 print(class_weights)
 
-model = crfs.EdgeFeatureGraphCRF(inference_method='qpbo',
-                                 class_weight=class_weights,
+model = crfs.EdgeFeatureGraphCRF(class_weight=class_weights,
                                  symmetric_edge_features=[0, 1],
                                  antisymmetric_edge_features=[2])
 
