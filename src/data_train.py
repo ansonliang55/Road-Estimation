@@ -37,10 +37,12 @@ def chooseClassification(name):
         'RF': rf(n_estimators = 50),
         'KNN': knn(n_neighbors=15, p=1),
         'SVM': svm.SVC(kernel='rbf', probability=True),
-        'KNNBOOST':BaggingClassifier(base_estimator=knn(),
-                             bootstrap=True,
-                             bootstrap_features=False,
-                             oob_score=True),
+        'BAG':BaggingClassifier()#base_estimator=knn(),
+                             #bootstrap=True,
+                             #bootstrap_features=True,
+                             #oob_score=True,
+                             #max_features = 10,
+                             #max_samples = 100),
         }.get(name, GaussianNB())    # default Gaussian Naive Bayes
 
 
@@ -72,14 +74,13 @@ scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
 # Preprocessing RandomizePCA
-print train_data.shape
 pca = RandomizedPCA(n_components=15)
 pca.fit(train_data)
 #train_data = pca.transform(train_data)
 print train_data.shape
 
 # set classifier and fit data
-clf = chooseClassification('KNNBOOST')
+clf = chooseClassification('BAG')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()
@@ -100,7 +101,7 @@ for file_num in range(0, valid_files_count):
     superpixelTotal = superpixelTotal + temp2
     pixelCorrect = pixelCorrect + temp3
     pixelTotal = pixelTotal +temp4
-#bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
+bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
 
 
 for file_num in range(0,2):#test_files_count):

@@ -65,7 +65,7 @@ class Feature:
                     sumDiff += self.edgesGrad[i][j]
                     count += 1
         expectColorGrad = sumDiff/count
-        print self.edge_featureVectors[:][0]
+        #print self.edge_featureVectors[:][0]
         #print expectColorGrad
         return self.edges, self.edgesGrad, self.edgesDist
 
