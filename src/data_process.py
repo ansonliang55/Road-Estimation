@@ -64,7 +64,7 @@ for i in xrange(0,num_files):
 
         fe = Feature()
         fe.loadImage(im_file_names[i])
-        fe.loadSuperpixelImage(200, 10)
+        fe.loadSuperpixelImage()
         #fe.loadSuperpixelFromFile(sp_file_names[i])
         fe.loadLabelImage(label_file_names[i])
 
@@ -72,7 +72,7 @@ for i in xrange(0,num_files):
         labels = fe.getSuperPixelLabels()
 
         #Test purposes
-        fe.getEdges()
+        #fe.getEdges()
 
         # store data
         if file_labels[i] == TRAINING_LABEL:

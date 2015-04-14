@@ -45,8 +45,8 @@ def getSuperPixelShape(superpixels):
         height = np.max(indices[1]) - np.min(indices[1])
         boxWidth = np.max((width, height))
         boundingBox = np.zeros((boxWidth+1, boxWidth+1))
-        x = indices[0] - np.min(indices[0])
-        y = indices[1] - np.min(indices[1])
+        x = indices[0] - np.min(indices[0]) + boxWidth/2 - width/2
+        y = indices[1] - np.min(indices[1]) + boxWidth/2 - height/2
         boundingBox[(x,y)] = 1
         boundingBox = boundingBox.ravel()
         binWidth = 1.0*len(boundingBox)/64
@@ -74,7 +74,7 @@ def getSuperPixelMeanColor(superpixels, image):
         b=np.mean(color.T[2])
         #newIm[indices] = [r,g,b]
         colors.append([r,g,b])
-    #showPlots(newIm, numSuperpixels, superpixels)
+    #showPlots(1, newIm, numSuperpixels, superpixels)
     return np.array(colors)
 
 # @input 
@@ -121,13 +121,13 @@ def getSuperPixelOrientedHistogram(superpixels,image):
     fd, hog_image = hog(image, orientations=8, pixels_per_cell=(16, 16), cells_per_block=(1, 1), visualise=True)
     hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 0.02))
     for i in xrange(0,numSuperpixels):
-        temp = np.zeros((1,5),dtype = int)
+        temp = np.zeros((1,10),dtype = int)
         indices = np.where(superpixels==i)
         gradient = hog_image_rescaled[indices]
         for j in xrange(0, gradient.shape[0]):
             x = np.int_(gradient[j] / 0.2)
-            if x == 5:
-                x = 4
+            if x == 10:
+                x = 9
             temp[0][x] = temp[0][x] + 1
         #preprocessing.normalize(temp[0])
         gradients.append(temp[0])
@@ -240,7 +240,7 @@ def showPrediction(im_name, clf, superpixels, test_data, image):
         #    newIm[indices] = [0,0,0]
         indices = np.where(newIm > 0.5)
         
-        image[indices] = newIm[indices]
+        image[indices] = 1#newIm[indices]
     showPlots(im_name, image, numSuperpixels, superpixels)
 
 # @input 

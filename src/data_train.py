@@ -33,7 +33,7 @@ def chooseClassification(name):
     print "Choosen classfier:",name
     return {
         'NB': GaussianNB(),
-        'KNN': knn(21),
+        'KNN': knn(n_neighbors=15, p=1),
         'ADA': adaBoost(n_estimators=100),
         'RF': rf(n_estimators = 30),
         'SVM': svm.SVC(kernel='rbf', probability=True),
@@ -69,13 +69,13 @@ train_data = scaler.transform(train_data)
 
 # Preprocessing RandomizePCA
 print train_data.shape
-pca = RandomizedPCA(n_components=11)
+pca = RandomizedPCA(n_components=15)
 pca.fit(train_data)
-train_data = pca.transform(train_data)
-
+#train_data = pca.transform(train_data)
 print train_data.shape
+
 # set classifier and fit data
-clf = chooseClassification('RF')
+clf = chooseClassification('KNN')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()
@@ -83,7 +83,7 @@ clf = clf.fit(train_data,train_labels.ravel())
 
 # benchmark using validation data
 valid_data = scaler.transform(valid_data)
-valid_data = pca.transform(valid_data)
+#valid_data = pca.transform(valid_data)
 #print clf.predict_proba(valid_data[0])
 #wait = input("PRESS ENTER TO CONTINUE.")
 end = time.clock()
@@ -114,7 +114,7 @@ for file_num in range(0,2):#test_files_count):
    # edges, feat = fe.getEdges()
     # Normalize data
     test_data = scaler.transform(test_data)
-    test_data = pca.transform(test_data)
+    #test_data = pca.transform(test_data)
 
     sp.showPrediction(file_num, clf, fe.getSuperpixelImage(), test_data, fe.getImage())
 
