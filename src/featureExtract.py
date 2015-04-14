@@ -24,16 +24,18 @@ class Feature:
         self.featureVectors = []
         self.sp_labels = []
         self.edges = []
+        self.edge_featureVectors = []
 
     def loadImage(self, im_file_name):
         self.im = img_as_float(io.imread(im_file_name))
         self.im_gray = color.rgb2gray(self.im)
 
-    def loadSuperpixelImage(self, numSegments, com_factor):
+    def loadSuperpixelImage(self):
         # get slic superpixel segmentation
         if self.im == []:
             raise Exception("Please load image first")
-        self.im_sp = sl.getSlicSuperpixels(self.im, numSegments, com_factor)
+        #300, 3
+        self.im_sp = sl.getSlicSuperpixels(self.im, 400, 3)
 
     def loadSuperpixelFromFile(self, sp_file_name):
         # get slic superpixel segmentation
@@ -50,6 +52,7 @@ class Feature:
         count = 0
         self.edgesGrad = np.zeros((row, row))
         self.edgesDist = np.zeros((row, row))
+
         for i in xrange(0,row):
             for j in xrange(i, col):
                 if self.edges[i][j]!= 0:
@@ -58,12 +61,14 @@ class Feature:
 
                     self.edgesDist[i][j] = np.linalg.norm(self.sp_location[i] - self.sp_location[j])
                     self.edgesDist[j][i] = self.edgesDist[i][j]
-
+                    #self.edge_featureVectors.append([self.edgesGrad[i][j], self.edgesDist[i][j]])
                     sumDiff += self.edgesGrad[i][j]
                     count += 1
         expectColorGrad = sumDiff/count
+        print self.edge_featureVectors[:][0]
         #print expectColorGrad
         return self.edges, self.edgesGrad, self.edgesDist
+
 
     def getFeaturesVectors(self):
 
@@ -79,13 +84,23 @@ class Feature:
         # get superpixel histogram of oriented gradient
         self.sp_hog = sp.getSuperPixelOrientedHistogram(self.im_sp, self.im_gray)
 
-         #get superpixel histogram of color
+        #get superpixel histogram of color
         #self.sp_color_hist = sp.getSuperPixelColorHistogram(self.im_sp, self.im)
 
         # get superpixel size
         self.sp_size = sp.getSuperPixelSize(self.im_sp)
 
-        self.featureVectors = np.vstack((self.sp_location.T,self.sp_size.T,self.sp_hog.T)).T#, self.sp_color.T,,self.sp_color.T,self.sp_size.T,self.sp_size.T,self.sp_color.T, self.sp_hog.T, self.sp_color_hist.T)).T
+        # all
+        self.featureVectors = np.vstack((self.sp_location.T, self.sp_color.T, self.sp_size.T, self.sp_hog.T)).T
+        # basic feature with hog
+        #self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T, self.sp_hog.T)).T
+
+        # basic feature vector
+        #self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T)).T
+
+        # basic feature vector no size
+        #self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T)).T
+
         return self.featureVectors
 
     def getSuperPixelLabels(self):

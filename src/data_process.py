@@ -29,8 +29,7 @@ sp_file_names = glob.glob("../data_road/training/image/*.mat")
 label_file_names = glob.glob("../data_road/training/label/*road*.png")
 
 num_files = len(im_file_names)
-num1 = 200
-num2 = 10
+
 # define data split
 num_train = int(num_files * 0.6)
 num_test = int(num_files * 0.3)
@@ -69,7 +68,8 @@ for i in xrange(0,num_files):
 
         fe = Feature()
         fe.loadImage(im_file_names[i])
-        fe.loadSuperpixelImage(num1,num2)
+        fe.loadSuperpixelImage()
+
         #fe.loadSuperpixelFromFile(sp_file_names[i])
         fe.loadLabelImage(label_file_names[i])
 
@@ -115,7 +115,5 @@ for i in xrange(0,num_files):
 
 print np.array(train_data).shape # show total number of superpixels
 
-
 scipy.io.savemat(arguments.output_file, {'valid_edges':valid_edges,'valid_edgesFeatures1':valid_edgesFeatures1,'valid_edgesFeatures2':valid_edgesFeatures2,'valid_edges':valid_edges,'valid_edgesFeatures1':valid_edgesFeatures1,'valid_edgesFeatures2':valid_edgesFeatures2,'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'valid_superpixels':valid_superpixels,'test_files_count':test_files_count,'validationOriginalImage':validationOriginalImage,'train_superpixels':train_superpixels}, oned_as='column')
-
 

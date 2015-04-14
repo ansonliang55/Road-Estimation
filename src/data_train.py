@@ -9,6 +9,7 @@ import scipy.io, sys
 import numpy as np
 from sklearn.linear_model import SGDClassifier,SGDRegressor
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import RandomizedPCA
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier as rf
@@ -32,9 +33,9 @@ def chooseClassification(name):
     print "Choosen classfier:",name
     return {
         'NB': GaussianNB(),
-        'KNN': knn(10),
         'ADA': adaBoost(n_estimators=50),
         'RF': rf(n_estimators = 50),
+        'KNN': knn(n_neighbors=15, p=1),
         'SVM': svm.SVC(kernel='rbf', probability=True),
         'KNNBOOST':BaggingClassifier(base_estimator=knn(),
                              bootstrap=True,
@@ -47,9 +48,6 @@ def chooseClassification(name):
 TRAINING_LABEL=0
 VALIDATION_LABEL=1
 TESTING_LABEL=2
-
-numSegments = 400
-com_factor = 3
 
 data = scipy.io.loadmat(arguments.train_db_path)
 train_data = data['train_data']
@@ -73,6 +71,13 @@ scaler = StandardScaler()
 scaler.fit(train_data)
 train_data = scaler.transform(train_data)
 
+# Preprocessing RandomizePCA
+print train_data.shape
+pca = RandomizedPCA(n_components=15)
+pca.fit(train_data)
+#train_data = pca.transform(train_data)
+print train_data.shape
+
 # set classifier and fit data
 clf = chooseClassification('KNNBOOST')
 clf = clf.fit(train_data,train_labels.ravel())
@@ -81,6 +86,7 @@ clf = clf.fit(train_data,train_labels.ravel())
 
 # benchmark using validation data
 valid_data = scaler.transform(valid_data)
+#valid_data = pca.transform(valid_data)
 #print clf.predict_proba(valid_data[0])
 #wait = input("PRESS ENTER TO CONTINUE.")
 end = time.clock()
@@ -97,7 +103,7 @@ for file_num in range(0, valid_files_count):
 #bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
 
 
-for file_num in range(0,1):#test_files_count):
+for file_num in range(0,2):#test_files_count):
     # see test results
     sp_file_names = data['sp_file_names'][file_num].strip()
     im_file_names = data['im_file_names'][file_num].strip()
@@ -105,11 +111,12 @@ for file_num in range(0,1):#test_files_count):
     # Extract features from image files
     fe = Feature()
     fe.loadImage(im_file_names)
-    fe.loadSuperpixelImage(400, 3)
+    fe.loadSuperpixelImage()
     test_data = fe.getFeaturesVectors()
-
+   # edges, feat = fe.getEdges()
     # Normalize data
     test_data = scaler.transform(test_data)
+    #test_data = pca.transform(test_data)
 
     sp.showPrediction(file_num, clf, fe.getSuperpixelImage(), test_data, fe.getImage())
 
