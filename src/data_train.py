@@ -48,8 +48,8 @@ TRAINING_LABEL=0
 VALIDATION_LABEL=1
 TESTING_LABEL=2
 
-numSegments = 200
-com_factor = 10
+numSegments = 400
+com_factor = 3
 
 data = scipy.io.loadmat(arguments.train_db_path)
 train_data = data['train_data']
@@ -63,7 +63,8 @@ valid_pixels_labels = data['valid_pixels_labels']
 test_files_count = data['test_files_count']
 validationOriginalImage = data['validationOriginalImage']
 #print valid_files
-
+print train_data.shape
+print valid_data.shape
 # record time used for training
 start = time.clock()
 
@@ -104,7 +105,7 @@ for file_num in range(0,1):#test_files_count):
     # Extract features from image files
     fe = Feature()
     fe.loadImage(im_file_names)
-    fe.loadSuperpixelImage(200, 10)
+    fe.loadSuperpixelImage(400, 3)
     test_data = fe.getFeaturesVectors()
 
     # Normalize data

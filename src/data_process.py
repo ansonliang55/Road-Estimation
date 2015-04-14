@@ -29,9 +29,8 @@ sp_file_names = glob.glob("../data_road/training/image/*.mat")
 label_file_names = glob.glob("../data_road/training/label/*road*.png")
 
 num_files = len(im_file_names)
-
-num1 = 400
-num2 = 3
+num1 = 200
+num2 = 10
 # define data split
 num_train = int(num_files * 0.6)
 num_test = int(num_files * 0.3)
