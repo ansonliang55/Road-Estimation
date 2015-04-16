@@ -15,7 +15,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('output_file', type=str, help='output filename')
-
+parser.add_argument('test_file', type=str, help='test filename')
 arguments = parser.parse_args()
 
 #constant
@@ -47,38 +47,46 @@ random.shuffle(file_labels)
 
 train_labels = []
 train_data = []
+test_labels = []
+test_data = []
 valid_labels = []
 valid_data = []
 train_edges = []
 train_edgesFeatures1 = []
 train_edgesFeatures2 = []
+test_edges = []
+test_edgesFeatures1 = []
+test_edgesFeatures2 = []
 valid_edges = []
 valid_edgesFeatures1 = []
 valid_edgesFeatures2 = []
 valid_pixels_labels = []
+test_pixels_labels = []
 valid_files = []
+test_files = []
 valid_files_count = 0
 test_files_count = 0
 valid_superpixels = []
 validationOriginalImage = []
+test_superpixels = []
+testOriginalImage = []
 train_superpixels = []
 for i in xrange(0,num_files):
 
-    if file_labels[i] != TESTING_LABEL:
 
-        fe = Feature()
-        fe.loadImage(im_file_names[i])
-        fe.loadSuperpixelImage()
+    fe = Feature()
+    fe.loadImage(im_file_names[i])
+    fe.loadSuperpixelImage()
 
-        #fe.loadSuperpixelFromFile(sp_file_names[i])
-        fe.loadLabelImage(label_file_names[i])
+    #fe.loadSuperpixelFromFile(sp_file_names[i])
+    fe.loadLabelImage(label_file_names[i])
 
-        featureVectors = fe.getFeaturesVectors()
-        labels = fe.getSuperPixelLabels()
+    featureVectors = fe.getFeaturesVectors()
+    labels = fe.getSuperPixelLabels()
 
-        #Test purposes
-        edges, edgeFeatures1, edgeFeatures2 = fe.getEdges()
-        
+    #Test purposes
+    edges, edgeFeatures1, edgeFeatures2 = fe.getEdges()
+    if file_labels[i] != TESTING_LABEL:   
         # store data
         if file_labels[i] == TRAINING_LABEL:
             train_edges.append(edges)
@@ -109,6 +117,21 @@ for i in xrange(0,num_files):
 
     else:
         test_files_count += 1
+        # get superpixel valid files
+        test_edges.append(edges)
+        test_edgesFeatures1.append(edgeFeatures1)
+        test_edgesFeatures2.append(edgeFeatures2)
+        test_superpixels.append(fe.getSuperpixelImage())
+        testOriginalImage.append(im_file_names[i])
+        # these two lines need to be added into featureExtraction class
+        test_files = sp.getSuperValidFiles(fe.getSuperpixelImage(), test_files_count, test_files)
+        test_pixels_labels.append(sp.getPixelLabel(fe.getLabelImage()))
+        test_files_count += 1
+        test_labels = np.append(test_labels, labels, 0)
+        if test_data==[]:
+            test_data = featureVectors
+        else:
+            test_data = np.vstack((test_data,featureVectors))
     sys.stdout.write('\r')
     sys.stdout.write('progress %2.2f%%' %(100.0*i/num_files))
     sys.stdout.flush()
@@ -116,4 +139,4 @@ for i in xrange(0,num_files):
 print np.array(train_data).shape # show total number of superpixels
 
 scipy.io.savemat(arguments.output_file, {'valid_edges':valid_edges,'valid_edgesFeatures1':valid_edgesFeatures1,'valid_edgesFeatures2':valid_edgesFeatures2,'valid_edges':valid_edges,'valid_edgesFeatures1':valid_edgesFeatures1,'valid_edgesFeatures2':valid_edgesFeatures2,'train_data':train_data, 'valid_data':valid_data, 'train_labels':train_labels, 'valid_labels':valid_labels, 'file_labels':file_labels, 'im_file_names':im_file_names, 'sp_file_names':sp_file_names, 'label_file_names':label_file_names,'valid_pixels_labels':valid_pixels_labels,'valid_files':valid_files,'valid_files_count':valid_files_count,'valid_superpixels':valid_superpixels,'test_files_count':test_files_count,'validationOriginalImage':validationOriginalImage,'train_superpixels':train_superpixels}, oned_as='column')
-
+scipy.io.savemat(arguments.test_file,{'test_data':test_data,'test_label':test_labels,'test_edges':test_edges,'test_edgesFeatures1':test_edgesFeatures1,'test_edgesFeatures2':test_edgesFeatures2},oned_as='column')

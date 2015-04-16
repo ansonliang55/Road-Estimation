@@ -3,6 +3,7 @@ Written by: Anson Liang, Wenjie Zi
 """
 from skimage import io, color
 import superpixel as sp
+import glob
 import scipy.io, sys
 from sklearn.linear_model import SGDClassifier,SGDRegressor
 from sklearn.preprocessing import StandardScaler
@@ -10,14 +11,12 @@ from sklearn.decomposition import RandomizedPCA
 from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier as knn
 from featureExtract import Feature
-import glob
 #import maxflow
-from skimage.util import img_as_float
 import argparse
 import numpy as np
 from pystruct.learners import NSlackSSVM
 from pystruct import learners
-import pystruct.models as crfs
+from pystruct.models import GraphCRF
 from pystruct.utils import SaveLogger
 from time import time
 import matplotlib.pyplot as plt
@@ -25,17 +24,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument('train_db_path', help='Path to training database')
 parser.add_argument('test_path', help='Path to test database')
 arguments = parser.parse_args()
-
 data = scipy.io.loadmat(arguments.train_db_path)
 test = scipy.io.loadmat(arguments.test_path)
 train_data = data['train_data']
 valid_data = data['valid_data']
-validationOriginalImage = data['validationOriginalImage']
-valid_superpixels = data['valid_superpixels']
-valid_edgesFeatures1 = data['valid_edgesFeatures1']
-valid_edgesFeatures2 = data['valid_edgesFeatures2']
-test_edgesFeatures1 = test['test_edgesFeatures1']
-test_edgesFeatures2 = test['test_edgesFeatures2']
 valid_edges = data['valid_edges']
 train_labels = data['train_labels']
 valid_labels = data['valid_labels']
@@ -49,6 +41,7 @@ train_data = scaler.transform(train_data)
 #Preprocessing RandomizePCA
 #pca = RandomizedPCA(n_components=15)
 #pca.fit(train_data)
+
 scaler.fit(valid_data)
 valid_data = scaler.transform(valid_data)
 scaler.fit(test_data)
@@ -95,15 +88,12 @@ for i in range(0, len(valid_edges)):
 X_valid = []
 for i in range(0,len(unary_file)):
     edges = []
-    edgesFeatures = []
     for j in range(0, (valid_edges[i][0]).shape[0]):
         for k in range(j,(valid_edges[i][0]).shape[1]):
            if  (valid_edges[i][0])[j][k] == 1:
                edges.append([j,k])
-               edgesFeatures.append([1.0, valid_edgesFeatures1[i][0][j][k],valid_edgesFeatures2[i][0][j][k]])
     edges = np.array(edges)
-    edgesFeatures = np.array(edgesFeatures)
-    X_valid.append((np.atleast_2d(unary_file[i]), np.array(edges, dtype=np.int),edgesFeatures))
+    X_valid.append((np.atleast_2d(unary_file[i]), np.array(edges, dtype=np.int)))
 print len(X_valid)
 print len(X_valid[0])
 print type(X_valid[0][0])
@@ -133,15 +123,12 @@ for i in range(0, len(test_edges)):
 X_test = []
 for i in range(0,len(unary_file)):
     edges = []
-    edgesFeatures = []
     for j in range(0, test_edges[i][0].shape[0]):
         for k in range (j,test_edges[i][0].shape[1]):
            if  (test_edges[i][0])[j][k] == 1:
                edges.append([j,k])
-               edgesFeatures.append([1.0, test_edgesFeatures1[i][0][j][k],test_edgesFeatures2[i][0][j][k]])
-    edges = np.array(edges)
-    edgesFeatures = np.array(edgesFeatures)
-    X_test.append((np.atleast_2d(unary_file[i]), np.array(edges, dtype=np.int),edgesFeatures))
+ #   edges = np.array(edges)
+    X_test.append((np.atleast_2d(unary_file[i]), np.array(edges, dtype=np.int)))
 test_count = 0
 test_Y = []
 for i in range (0, len(test_edges)):
@@ -150,48 +137,43 @@ for i in range (0, len(test_edges)):
         labels[0][j] = test_labels[test_count + j].astype(int)
     test_count = test_count + test_edges[i][0].shape[0]
     test_Y.append(labels[0])
-C = 0.01
-n_states = 2
-class_weights = 1. / np.bincount(np.hstack(valid_Y))
-class_weights *= 2. / np.sum(class_weights)
-print(class_weights)
+"""    
+x_test = []
+for i in range(0, valid_data.shape[0]):
+    temp = np.zeros((1,2),dtype = int)
+    if clf.predict(valid_data[i]) == 0:
+        temp[0][0] = 1
+    else:
+        temp[0][1] = 1
+    x_test.append(temp[0])
+X_test = [(x, np.empty((0, 2), dtype=np.int)) for x in x_test]
+print len(x_test)
+for i in range(len(test_labels)):
+    test_labels = test_labels.astype(int)
+"""
+print len(test_labels)
+pbl = GraphCRF(inference_method='ad3')
+svm = NSlackSSVM(pbl, C=1,n_jobs = 1,verbose = 1)
+start = time()
+print len(X_valid)
+print len(valid_Y)
+svm.fit(X_valid, valid_Y)
+print "fit finished"
+time_svm = time() - start
+print X_test[i][0].shape
+print svm.score(X_valid,valid_Y)
+print svm.score(X_test,test_Y)
+y_pred = np.vstack(svm.predict(np.array(X_valid)))
+print("Score with pystruct crf svm: %f (took %f seconds)"
+      % (np.mean(y_pred == valid_Y), time_svm))
+y_predt = np.vstack(svm.predict(np.array(X_test)))
+print("Score with pystruct crf svm: %f (took %f seconds)"
+      % (np.mean(y_predt == test_Y), time_svm))
 
-model = crfs.EdgeFeatureGraphCRF(class_weight=class_weights)
 
-experiment_name = "edge_features_one_slack_trainval_%f" % C
+#we throw away void superpixels and flatten everything
+#y_pred, y_true = np.hstack(y_pred), np.hstack(valid_Y)
+#y_pred = y_pred[y_true != 255]
+#y_true = y_true[y_true != 255]
 
-ssvm = learners.NSlackSSVM(
-    model, verbose=2, C=1, max_iter=1000, n_jobs=-1,
-    tol=0.0001, show_loss_every=5,
-    inactive_threshold=1e-3, inactive_window=10, batch_size=100)
-ssvm.fit(X_valid, valid_Y)
-
-print ssvm.score(X_valid,valid_Y)
-print ssvm.score(X_test,test_Y)
-predict = ssvm.predict(X_valid)
-for i in range(0, len(X_valid)):
-    predict_result = predict[i]
-    fe = Feature()
-    x = glob.glob("../data_road/training/image/um_000001.png")
-    print len(x)
-    fe.loadImage(x[0])
-    fe.loadSuperpixelImage()
-    image = fe.getImage()
-    superpixels = valid_superpixels[i][0]
-    newIm = np.zeros((image.shape[0], image.shape[1], image.shape[2]))
-    numSuperpixels = np.max(superpixels)+1
-    for i in xrange(0,numSuperpixels):
-        indices = np.where(superpixels==i)
-        prediction = predict_result[i]
-        image[indices] = 1
-    sp.showPlots("im_name", image, numSuperpixels, superpixels)
-#superpixels = 
-#sp.showPlots(x, y_pred[0], np.max(superpixels),superpixels):
-#print y_pred
-
-# we throw away void superpixels and flatten everything
-y_pred, y_true = np.hstack(y_pred), np.hstack(test_Y)
-y_pred = y_pred[y_true != 255]
-y_true = y_true[y_true != 255]
-
-print("Score on validation set: %f" % np.mean(y_true == y_pred))
+#print("Score on test set: %f" % np.mean(y_true == y_pred))

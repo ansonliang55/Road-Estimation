@@ -250,6 +250,7 @@ def showPrediction(im_name, clf, superpixels, test_data, image):
 def getPairwiseMatrix(superpixels):
     numSuperpixels = np.max(superpixels)+1
     [row, col] = superpixels.shape
+    print numSuperpixels
     edges = np.zeros((numSuperpixels,numSuperpixels))
     for i in xrange(0, row-1):
         for j in xrange(0, col-1):

@@ -47,7 +47,8 @@ class Feature:
     def getEdges(self): 
         #
         self.edges = sp.getPairwiseMatrix(self.im_sp)
-        [row, col] = self.edges.shape
+        row = col = np.max(self.im_sp)+1
+        print row
         sumDiff = 0
         count = 0
         self.edgesGrad = np.zeros((row, row))
@@ -91,7 +92,7 @@ class Feature:
         self.sp_size = sp.getSuperPixelSize(self.im_sp)
 
         # all
-        self.featureVectors = np.vstack((self.sp_location.T, self.sp_color.T, self.sp_size.T, self.sp_hog.T)).T
+        self.featureVectors = np.vstack((self.sp_location.T, self.sp_color.T, self.sp_size.T,)).T
         # basic feature with hog
         #self.featureVectors = np.vstack((self.sp_location.T,self.sp_color.T, self.sp_size.T, self.sp_hog.T)).T
 

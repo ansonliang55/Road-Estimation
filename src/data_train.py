@@ -34,10 +34,10 @@ def chooseClassification(name):
     return {
         'NB': GaussianNB(),
         'ADA': adaBoost(n_estimators=50),
-        'RF': rf(n_estimators = 50),
+        'RF': rf(n_estimators = 100),
         'KNN': knn(n_neighbors=15, p=1),
         'SVM': svm.SVC(kernel='rbf', probability=True),
-        'BAG':BaggingClassifier()#base_estimator=knn(),
+        'BAG':BaggingClassifier(n_estimators = 30)#base_estimator=knn(),
                              #bootstrap=True,
                              #bootstrap_features=True,
                              #oob_score=True,
@@ -67,7 +67,8 @@ print train_data.shape
 print valid_data.shape
 # record time used for training
 start = time.clock()
-
+for i in range(0, len(superpixels)):
+    print np.max(superpixels[i][0])
 # Preprocessing normalize data
 scaler = StandardScaler()
 scaler.fit(train_data)
@@ -80,7 +81,7 @@ pca.fit(train_data)
 print train_data.shape
 
 # set classifier and fit data
-clf = chooseClassification('BAG')
+clf = chooseClassification('RF')
 clf = clf.fit(train_data,train_labels.ravel())
 #scores = cross_val_score(clf, train_data, train_label)
 #scores.mean()
@@ -102,9 +103,8 @@ for file_num in range(0, valid_files_count):
     pixelCorrect = pixelCorrect + temp3
     pixelTotal = pixelTotal +temp4
 bm.overrallAverageResult(superpixelCorrect, superpixelTotal, pixelCorrect,pixelTotal)
-
-
-for file_num in range(0,2):#test_files_count):
+"""
+for file_num in range(210,213):#test_files_count):
     # see test results
     sp_file_names = data['sp_file_names'][file_num].strip()
     im_file_names = data['im_file_names'][file_num].strip()
@@ -120,7 +120,7 @@ for file_num in range(0,2):#test_files_count):
     #test_data = pca.transform(test_data)
 
     sp.showPrediction(file_num, clf, fe.getSuperpixelImage(), test_data, fe.getImage())
-
+"""
 """
 G=nx.Graph()
 numSuperpixels = np.max(fe.getSuperpixelImage())+1

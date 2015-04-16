@@ -26,9 +26,9 @@ def accuracyOfSuperpixels(file_num,valid_files, valid_data, clf, valid_labels,va
     count_correct = np.sum(clf.predict(valid_data[indices]) == valid_labels[indices].ravel())
     """for i in range(0,total_samples):
         print clf
-        if clf.predict(valid_data[indices[i]]) == valid_labels[indices[i]]:
-                count_correct+=1"""
-    print validationOriginalImage[file_num]
+        if clf.predict(valid_data[indices[i]]) == valid_labels[indices[i]].ravel():
+                count_correct+=1
+    print validationOriginalImage[file_num]"""
     print ('Validation Accuracy (Superpixel level): %2.2f%%')%(100.0*count_correct/total_samples)
 
     return count_correct, total_samples
