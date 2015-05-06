@@ -9,9 +9,7 @@ Data split:
 60% training, 10% validation, 30% testing
 
 Purpose:
-The purpose of this project is to investigate machine learning techniques to solve this task. Try things that we have seen in class and feel free to also try other techniques. Write in your report what you have done, what you observe, what you have tried, why you did what you did, etc.
-
-Make a section of your report about what would you do to scale what you have done to work with pixels, as in that case you have millions of examples. You don’t need to implement anything but add a discussion of your ideas
+The purpose of this project is to investigate machine learning techniques to estimate where the road is in the image. Try things that we have seen in class and try other techniques. 
 
 REF:
 * [13] L. Ladick´y, C. Russell, P. Kohli, and P. H. S. Torr. Associative hierarchical crfs for object class image
