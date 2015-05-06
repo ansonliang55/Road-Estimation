@@ -9,7 +9,7 @@ Data split:
 60% training, 10% validation, 30% testing
 
 Purpose:
-The purpose of this project is to investigate machine learning techniques to estimate where the road is in the image. Try things that we have seen in class and try other techniques. 
+The purpose of this project is to apply machine learning techniques to estimate where the road is in the image.
 
 REF:
 * [13] L. Ladick´y, C. Russell, P. Kohli, and P. H. S. Torr. Associative hierarchical crfs for object class image
